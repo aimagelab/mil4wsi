@@ -9,14 +9,11 @@ def get_args():
 
     group2=parser.add_argument_group("gnn")
     group2.add_argument('--residual', default=False, action="store_true",)
-    group2.add_argument('--max', default=False, action="store_true")
-
     group2.add_argument('--num_layers', default=1, type=int, help='number of Graph layers')
     group2.add_argument('--dropout', default=True, action="store_true")
     group2.add_argument('--dropout_rate', default=0.2, type=float)
     group2.add_argument('--layer_name', default="GAT", type=str, help='layer graph name')
     group2.add_argument('--heads',default=3, type=int, help='layer graph name')
-
 
     group3=parser.add_argument_group("training")
     group3.add_argument('--seed', default=12, type=int, help='seed for reproducibility')
@@ -38,13 +35,11 @@ def get_args():
     group6.add_argument('--temperature', default=1.5, type=float, help='temperature')
     group6.add_argument('--add_bias', default=True,action="store_true")
 
-
     parser.add_argument('--tag', default="split", type=str, help='train strategy')
     parser.add_argument('--modeltype', default="WithGraph_y_Higher_kl_Lower", type=str, help='train strategy')
     parser.add_argument('--project', default="decider-geom", type=str, help='project name for wandb')
     parser.add_argument('--model', default="decider-geom", type=str, help='project name for wandb')
     parser.add_argument('--wandbname', default="main", type=str, help='project name for wandb')
-
 
     args = parser.parse_args()
     return args
