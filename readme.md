@@ -1,20 +1,34 @@
-DAS-MIL
+# DAS-MIL
 
-Steps:
+In this work, with the objective of leveraging the full potential of pyramidal structured WSI, we propose a graph-based multi-scale MIL approach, DAS-MIL, that exploits message passing to let information flows across multiple scales. By means of a knowledge distillation schema, the alignment between the latent space representation at different resolutions is encouraged while preserving the diversity in the informative content.
 
-conda env create -f environment.yml
-python main.py
-the experiments are inside utils.experiments.py
-DAS-MIL
-
-Steps:
-
+# Installation
 
 ```bash
-conda env create -f environment.yml
+'conda create -n wsissl python=3.9'
+'conda env update --file environment.yml
 ```
 
+# Data preparation
+Extract patches (".jpg") with your prefered patch extractor (e.g., CLAM) and save them in different folders for each resolution
+## Preprocessing (Hierarchical  patch organization)
+Given the folders of the different patch resolutions, it is possible to reorganize them in a hierarchical way via 1-sort_images/sort_hierarchy.py
+
+## Feature extraction 
+Install DINO in a different folder and save the code location into the environment variable "DINO_REPO". Given the hierarchical patch organization it is possible to extract the embeddings, given the pretrained model path via 
+
 ```bash
-python main.py
+2-extract_feats/run_with_submitit.py
 ```
-the experiments are inside `utils.experiments.py`
+## Pytorch Geometric Adaptation
+
+```bash
+3-prepare-geomDataset/prepare_dataset.py
+```
+
+# Launch dasmil
+```bash
+main.py
+```
+
+

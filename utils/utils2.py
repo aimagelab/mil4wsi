@@ -1,14 +1,11 @@
 from typing import Optional, Tuple
-
 import torch
-
 try:
     import torch_cluster  # noqa
     random_walk = torch.ops.torch_cluster.random_walk
 except ImportError:
     random_walk = None
 from torch import Tensor
-
 from torch_geometric.utils.num_nodes import maybe_num_nodes
 from torch_geometric.utils.subgraph import subgraph
 

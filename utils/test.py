@@ -1,8 +1,12 @@
 import torch
 import numpy as np
 from utils.metrics import computeMetrics
-
-
+from skimage import exposure, io, img_as_ubyte, transform
+import os
+import wandb
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+from utils.qupath import processjson
 
 def test(model,testloader):
     model.eval()
@@ -11,14 +15,15 @@ def test(model,testloader):
     test_predictions1=[]
     test_labels=[]
     names=[]
-    for idx,data in enumerate(testloader):
+    for _,data in enumerate(testloader):
         data= data.cuda()
-        x, edge_index,childof,level,name = data.x, data.edge_index,data.childof,data.level,data.name
+        x, edge_index,childof,level = data.x, data.edge_index,data.childof,data.level
         if data.__contains__("edge_index_2") and data.__contains__("edge_index_3"):
             edge_index2,edge_index3=data.edge_index_2,data.edge_index_3
         else:
             edge_index2=None
             edge_index3=None
+
         results = model(x, edge_index,level,childof,edge_index2,edge_index3)
         bag_label=data.y.float().squeeze().cpu().numpy()
         if model.classes==2:
@@ -27,7 +32,6 @@ def test(model,testloader):
             else:
                 bag_label= torch.LongTensor([[1,0]]).float().squeeze().cpu().numpy()
         test_labels.extend([bag_label])
-        names.extend([name])
         preds=model.predict(results)
         test_predictions0.extend([(preds[0]).squeeze().cpu().detach().numpy()])
 
