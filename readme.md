@@ -36,3 +36,8 @@ main.py
 ```
 
 
+# Download Pretrained Models
+
+At this [Link]() you can download the DINO feature extractors(as well as dasmil model) for both datasets
+
+
