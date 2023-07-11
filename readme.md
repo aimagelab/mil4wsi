@@ -32,12 +32,12 @@ Install DINO in a different folder and save the code location into the environme
 
 # Launch dasmil
 ```bash
-main.py
+python main.py
 ```
 
 
 # Download Pretrained Models
 
-At this [Link]() you can download the DINO feature extractors(as well as dasmil model) for both datasets
+At this [Link](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil.zip) you can download the DINO feature extractors(as well as dasmil model) for both datasets
 
 
