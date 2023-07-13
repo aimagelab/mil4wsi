@@ -19,12 +19,17 @@ import utils as utils
 
 sys.path.append(os.environ["DINO_REPO"])
 
+# Extract x and y coordinates from patch path
+
 
 def getinfo(patch):
+
     infos = patch.split(os.sep)[-1].split("_")
     y = int(infos[-1].split(".")[0])
     x = int(infos[-3])
     return x, y
+
+# Encapsulate patch information into a dictionary
 
 
 def encapsulate_patch_info(parent_id, x, y, id, shift, level, embedding, path):
@@ -39,6 +44,8 @@ def encapsulate_patch_info(parent_id, x, y, id, shift, level, embedding, path):
     kinfo["path"] = path
     return kinfo
 
+# Get the embedding for an image patch from the specified resolution level of the models
+
 
 def getembedding(models, img, level):
     level = 3-level
@@ -47,6 +54,8 @@ def getembedding(models, img, level):
     img = img.view(1, 3, 256, 256)
     embedding = models[level](img).detach().cpu().numpy()
     return embedding
+
+# Get properties of a candidate from a CSV file
 
 
 def properties(candidate, path):
@@ -58,12 +67,17 @@ def properties(candidate, path):
     down = 0
     return real_name, id, label, test, down
 
+ # Check the entropy of an image to determine its quality
+
 
 def checkentropy(image):
     if image.entropy() < 5:
         return False
     else:
         return True
+
+
+# Recursively get children patches and their embeddings
 
 
 def get_children(parent_id, x_base, y_base, basepath, allowedlevels, level, models, kinfos, infosConcat, base_shift):
@@ -105,6 +119,8 @@ def get_children(parent_id, x_base, y_base, basepath, allowedlevels, level, mode
 
     return kinfos, infosConcat
 
+  # Search for neighboring patches and add the information to the DataFrame
+
 
 def search_neighboors(infos):
     df = pd.DataFrame(infos)
@@ -126,6 +142,8 @@ def search_neighboors(infos):
             df.at[df.index[df["id"] == patch["id"]][0], "nearsto"] = lista
     return df
 
+ # Create an adjacency matrix based on the neighboring patches
+
 
 def create_matrix(df):
     matrix = torch.zeros(size=[df.shape[0], df.shape[0]])
@@ -142,6 +160,8 @@ def create_matrix(df):
                 matrix[int(i), int(parent)] = 1
                 matrix[int(parent), int(i)] = 1
     return matrix
+
+# Compute tree features for a slide
 
 
 def compute_tree_feats_Slide(real_name, label, test, args, models, save_path=None, base_shift=2048):
@@ -177,6 +197,7 @@ def compute_tree_feats_Slide(real_name, label, test, args, models, save_path=Non
         dump(infos, os.path.join(dest, "embeddings.joblib"))
         torch.save(matrix, os.path.join(dest, "adj.th"))
         del infos
+# Load parameters for a model
 
 
 def load_parameters(model, path, name, device):

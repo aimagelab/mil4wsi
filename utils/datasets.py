@@ -7,10 +7,21 @@ from utils.seed import seed_worker
 
 
 def get_loaders(args):
+    """
+    Creates and returns data loaders for training, validation, and testing.
+
+    Args:
+        args (Namespace): Command-line arguments.
+
+    Returns:
+        tuple: A tuple containing the train, validation, and test data loaders.
+    """
+    # Create train and test datasets
     train_dataset = MyOwnDataset(root=args.datasetpath, type="train")
     test_dataset = MyOwnDataset(root=args.datasetpath, type="test")
+    # Set the validation dataset as the test dataset
     val_dataset = test_dataset
-    # prepapare dataloader
+    # Prepare dataloader
     g = torch.Generator()
     g.manual_seed(args.seed)
     graph_val_loader = geom_loader.DataLoader(
@@ -23,10 +34,14 @@ def get_loaders(args):
 
 
 def from_scipy_sparse_matrix(A):
-    r"""Converts a scipy sparse matrix to edge indices and edge attributes.
+    """
+    Converts a scipy sparse matrix to edge indices and edge attributes.
 
     Args:
         A (scipy.sparse): A sparse matrix.
+
+    Returns:
+        tuple: A tuple containing the edge indices and edge attributes.
     """
     A = A.tocoo()
     row = torch.from_numpy(A.row).to(torch.long)
@@ -38,6 +53,20 @@ def from_scipy_sparse_matrix(A):
 
 class MyOwnDataset(Dataset):
     def __init__(self, root, transform=None, pre_transform=None, type="train"):
+        """
+        Custom dataset class for MyOwnDataset.
+
+        Args:
+            root (str): Root directory for the dataset.
+            transform (callable, optional): A function/transform that takes in an
+                torch_geometric.data.Data object and returns a transformed version.
+                Defaults to None.
+            pre_transform (callable, optional): A function/transform that takes in an
+                torch_geometric.data.Data object and returns a transformed version.
+                Defaults to None.
+            type (str, optional): Type of the dataset (e.g., "train", "test").
+                Defaults to "train".
+        """
         super(MyOwnDataset, self).__init__(root, transform, pre_transform)
         self.type = type
         self.bags = glob.glob(os.path.join(

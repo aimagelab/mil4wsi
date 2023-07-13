@@ -8,6 +8,7 @@ import time
 
 
 def args_to_dict(args):
+    # Convert argparse.Namespace object to a dictionary
     d = {
         "name": args.modeltype,
         "optimizer": {"lr": args.lr,
@@ -58,11 +59,12 @@ def train(model: torch.nn.Module,
         torch.nn.Module: trained model
     """
 
-    # config wandb
+    # Initialize wandb run
     run = wandb.init(project=args.project, name=args.wandbname, save_code=True,
                      settings=wandb.Settings(start_method='fork'), tags=[args.tag])
     wandb.config.update(args)
     # -----
+
     epochs = args.n_epoch
     model.train()
     model = model.cuda()
@@ -72,6 +74,7 @@ def train(model: torch.nn.Module,
         0.5, 0.9), weight_decay=args.weight_decay)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
         optimizer, epochs, 0.000005)
+    # Test the initial model
     with torch.no_grad():
         start_test = time.time()
         metrics = test(model, testloader=testloader)
@@ -86,15 +89,17 @@ def train(model: torch.nn.Module,
             "lr": scheduler.get_last_lr()[0]
         })
     BestPerformance = 0
-    # start training
+    # Start training
     for epoch in range(epochs):
         start_training = time.time()
+        # Iterate over the training data
         for _, data in enumerate(trainloader):
 
             model.train()
             optimizer.zero_grad()
             data = data.cuda()
             x, edge_index, childof, level = data.x, data.edge_index, data.childof, data.level
+            # Check if additional edge indices are present
             if data.__contains__("edge_index_2") and data.__contains__("edge_index_3"):
                 edge_index2, edge_index3 = data.edge_index_2, data.edge_index_3
             else:

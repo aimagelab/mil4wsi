@@ -4,6 +4,18 @@ from sklearn.metrics import roc_curve, roc_auc_score
 
 
 def multi_label_roc(labels, predictions, num_classes, pos_label=1):
+    """
+    Computes ROC curve and AUC for each class in a multi-label classification task.
+
+    Args:
+        labels (numpy.ndarray): Ground truth labels.
+        predictions (numpy.ndarray): Predicted probabilities.
+        num_classes (int): Number of classes.
+        pos_label (int): Positive label.
+
+    Returns:
+        tuple: Tuple containing the AUC values, thresholds, and optimal thresholds for each class.
+    """
     fprs = []
     tprs = []
     thresholds = []
@@ -26,12 +38,36 @@ def multi_label_roc(labels, predictions, num_classes, pos_label=1):
 
 
 def optimal_thresh(fpr, tpr, thresholds, p=0):
+    """
+    Computes the optimal threshold based on the ROC curve coordinates and a loss function.
+
+    Args:
+        fpr (numpy.ndarray): False positive rates.
+        tpr (numpy.ndarray): True positive rates.
+        thresholds (numpy.ndarray): Threshold values.
+        p (float): Weight parameter for the loss function.
+
+    Returns:
+        tuple: Tuple containing the optimal false positive rate, true positive rate, and threshold.
+    """
     loss = (fpr - tpr) - p * tpr / (fpr + tpr + 1)
     idx = np.argmin(loss, axis=0)
     return fpr[idx], tpr[idx], thresholds[idx]
 
 
 def computeMetrics(test_labels, test_predictions, num_classes=2, names=[]):
+    """
+    Computes evaluation metrics for multi-label classification.
+
+    Args:
+        test_labels (numpy.ndarray): Ground truth labels.
+        test_predictions (numpy.ndarray): Predicted probabilities.
+        num_classes (int): Number of classes.
+        names (list): Class names.
+
+    Returns:
+        tuple: Tuple containing the average score, AUC value, and class predictions.
+    """
     if test_predictions.shape[0] == 0:
         return None, None, None
     auc_value, _, thresholds_optimal = multi_label_roc(

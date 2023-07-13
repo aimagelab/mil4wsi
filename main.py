@@ -5,13 +5,16 @@ from utils.process import processDataset
 from utils.experiments import *
 from utils.parser import get_args
 
+# Set environment variable to increase wandb service wait time
 os.environ["WANDB__SERVICE_WAIT"] = "300"
+
 # sys.path.append('.')
 
 # Ensure that all operations are deterministic on GPU (if used) for reproducibility
 
 
 def main():
+    # Get command line arguments
     args = get_args()
     executor = submitit.AutoExecutor(
         folder="LOGFOLDER", slurm_max_num_timeout=30)
@@ -26,8 +29,12 @@ def main():
         slurm_partition="prod",
         slurm_signal_delay_s=120,
         slurm_array_parallelism=15)
+
+    # Prepare list of experiments
     experiments = []
     experiments = experiments+[args]
+
+    # Map the processDataset function to the list of experiments for execution
     executor.map_array(processDataset, [experiments[0]])
 
 

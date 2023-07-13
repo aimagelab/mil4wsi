@@ -2,15 +2,26 @@ import torch
 from models.dasmil import DASMIL
 
 
+# Dictionary of multi-scale models
 multi_scales_models = {
     "WithGraph_y_Higher_kl_Lower":  {"model": DASMIL, "kl": "lower", "target": "higher"},
 }
 
+# Dictionary of single-scale models
 single_scales_models = {}
 
 
 def selectModel(args):
+    """
+    Selects the appropriate model based on the provided arguments.
 
+    Args:
+        args (Namespace): Command-line arguments.
+
+    Returns:
+        torch.nn.Module: The selected model.
+    """
+    # Load the state dict weights from the checkpoint
     state_dict_weights = torch.load(
         args.checkpoint, map_location=torch.device('cpu'))
 
@@ -31,7 +42,9 @@ def selectModel(args):
     # Count the number of parameters
     num_params = sum(p.numel() for p in model.parameters())
     print(f"Number of parameters: {num_params}")
+    # Move the model to GPU
     model = model.cuda()
+    # Calculate and print memory usage in GB
     memory_usage = torch.cuda.memory_allocated(
         device="cuda") / 1e9  # in gigabytes
 

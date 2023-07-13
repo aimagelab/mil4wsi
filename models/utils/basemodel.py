@@ -12,6 +12,9 @@ class Baseline(nn.Module):
             args: NameSpace
         """
         super().__init__()
+
+        # Store the arguments
+
         self.args = args
         self.target = args.target
         self.lamb = args.lamb
@@ -51,9 +54,34 @@ class Baseline(nn.Module):
         return x, edge_index
 
     def forward_gnn(self, x: torch.Tensor, edge_index: torch.Tensor, levels: torch.Tensor, childof: torch.Tensor, edge_index2: torch.Tensor = None, edge_index3: torch.Tensor = None):
+        """
+        Forward pass of the GNN model.
+
+        Args:
+            x (torch.Tensor): Input features.
+            edge_index (torch.Tensor): List of vertex index pairs representing the edges in the graph.
+            levels (torch.Tensor): Tensor indicating the levels of each node.
+            childof (torch.Tensor): Tensor indicating the parent-child relationship between nodes.
+            edge_index2 (torch.Tensor, optional): Additional edge index tensor. Defaults to None.
+            edge_index3 (torch.Tensor, optional): Additional edge index tensor. Defaults to None.
+
+        Returns:
+            None
+        """
         NotImplementedError("forward_gnn error")
 
     def forward_mil(self, indecesperlevel: torch.Tensor, feats: torch.Tensor, results: dict):
+        """
+        Forward pass of the MIL model.
+
+        Args:
+            indecesperlevel (torch.Tensor): Tensor containing the indices per level.
+            feats (torch.Tensor): Input features.
+            results (dict): Dictionary to store the results.
+
+        Returns:
+            None
+        """
         NotImplementedError("forward_mil error")
 
     def forward(self, x: torch.Tensor, edge_index: torch.Tensor, levels: torch.Tensor, childof: torch.Tensor, edge_index2: torch.Tensor = None, edge_index3: torch.Tensor = None):
@@ -87,20 +115,20 @@ class Baseline(nn.Module):
             torch.Tensor: return loss
         """
         loss = 0
-        # target level prediction
+        # Target level prediction
         y_instance_pred1, prediction_bag1, _, _ = results[self.target]
         higher_loss = CELoss(loss_module_instance,
                              y_instance_pred1, prediction_bag1, bag_label)
         loss += higher_loss
         # ------
         if self.kl is not None:
-            # second scale loss
+            # Second scale loss
             y_instance_pred2, prediction_bag2, _, _ = results[self.kl]
             lower_loss = CELoss(loss_module_instance, y_instance_pred2,
                                 prediction_bag2, bag_label, lamb=(1.0-self.lamb))
             loss += lower_loss
             # -----
-            # distill patch level
+            # Distill patch level
             if self.max:
                 mse_loss = computeMSE_max(
                     y_instance_pred2, y_instance_pred1, results["childof"])

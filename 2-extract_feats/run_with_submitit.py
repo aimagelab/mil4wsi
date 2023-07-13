@@ -8,7 +8,7 @@ from extract_feats.embedding_extract_tree import processSlide
 sys.path.append(os.environ["DINO_REPO"])
 sys.path.append('DASMIL-REPOSITORY PATH')
 
-
+# Parse command line arguments
 parser = argparse.ArgumentParser(
     description='Compute features from Dino embedder')
 parser.add_argument('--num_workers', default=4, type=int,
@@ -46,6 +46,7 @@ parser.add_argument("--checkpoint_key", default="teacher", type=str,
 args, _ = parser.parse_known_args()
 args.levels = list(args.levels)
 
+# Create an AutoExecutor instance
 executor = submitit.AutoExecutor(folder="./loggraph", slurm_max_num_timeout=30)
 executor.update_parameters(
     mem_gb=5,
@@ -60,7 +61,12 @@ executor.update_parameters(
     slurm_signal_delay_s=180,
     slurm_array_parallelism=20)
 executor.update_parameters(name="dasmil")
+
+# Read properties from CSV
 df = pd.read_csv(args.propertiescsv)
+
+# Create a list of arguments for each job
 args = [args for i in range(0, len(df), args.step)]
+# Submit jobs using map_array method
 jobs = executor.map_array(processSlide, range(0, len(df), args[0].step), args)
 # processSlide(0,args[0])

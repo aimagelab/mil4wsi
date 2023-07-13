@@ -6,11 +6,14 @@ import pandas as pd
 import argparse
 
 
+# Calculate the shift coordinates for a given patch
 def calcolate_shift(patch, level, base_size):
     shift = base_size/(2**level)
     x = int(patch.split(os.sep)[-1].split("_")[2])
     y = int(patch.split(os.sep)[-1].split("_")[4].split(".")[0])
     return x, y, int(shift)
+
+# Generate the hierarchical structure of directories and copy files accordingly to the resolution
 
 
 def hierarchy(parent_path, x10path, x20path, dirpath, base_size, level):
@@ -34,6 +37,8 @@ def hierarchy(parent_path, x10path, x20path, dirpath, base_size, level):
             hierarchy(file, x10path, x20path, os.path.join(
                 dirpath, newname.split(".")[0]), base_size, level+1)
 
+# Prepare slide data for processing
+
 
 def prepareslide(candidates, args):
     log_folder = "LOGFOLDER/%j"
@@ -42,6 +47,8 @@ def prepareslide(candidates, args):
                                name="sort_hierarchy", slurm_time=200, mem_gb=10, slurm_array_parallelism=3)
     args = [args for c in candidates]
     executor.map_array(nested_patches, candidates, args)
+
+# Retrieve properties of a candidate slide
 
 
 def properties(candidate):
@@ -59,6 +66,8 @@ def properties(candidate):
         down = 0
     return real_name, id, label, test, magnitude, down
 
+# Get command-line arguments
+
 
 def get_args():
     parser = argparse.ArgumentParser(description='sort_slide')
@@ -73,6 +82,8 @@ def get_args():
                         type=str, help='destination folder')
     args = parser.parse_args()
     return args
+
+# Process nested patches
 
 
 def nested_patches(candidate, args):
@@ -106,7 +117,7 @@ def nested_patches(candidate, args):
 args = get_args()
 real_candidates = []
 lista = glob.glob(os.path.join(args.sourcex5, "*"))
-
+# Identify real candidates for slide processing
 for candidate in range(len(lista)):
     dest = args.dest
     real_name = lista[candidate].split(os.sep)[-1]

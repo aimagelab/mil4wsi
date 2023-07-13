@@ -5,11 +5,12 @@ from models.init import selectModel
 
 
 def processDataset(args):
-    # init seeds
+    # Initialize seeds for reproducibility
     init_seed(args)
-    # prepare dataset and dataloaders
+    # Prepare dataset and data loaders
     train_loader, val_loader, test_loader = get_loaders(args)
+    # Select the model based on the given arguments
     model = selectModel(args)
-    # start training
+    # Start training
     bestmodel = train(model, trainloader=train_loader,
                       valloader=val_loader, testloader=test_loader, args=args)
