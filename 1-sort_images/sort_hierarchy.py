@@ -39,7 +39,7 @@ def hierarchy(parent_path,x10path,x20path,dirpath,base_size,level):
 def prepareslide(candidates,args):
     log_folder = "LOGFOLDER/%j"
     executor = submitit.AutoExecutor(folder=log_folder)
-    executor.update_parameters( slurm_partition="SLURM_PARTIITION",name="sort_hierarchy",slurm_time=200,mem_gb=10,slurm_array_parallelism=3)
+    executor.update_parameters( slurm_partition=args.slurm_partition,name="sort_hierarchy",slurm_time=200,mem_gb=10,slurm_array_parallelism=3)
     args= [args for c in candidates]
     executor.map_array(nested_patches,candidates,args)
 
@@ -63,7 +63,8 @@ def get_args():
     parser.add_argument('--sourcex5', default="SOURCEPATHx5", type=str, help='path to patches at 5x scale')
     parser.add_argument('--sourcex10', default="SOURCEPATHx10", type=str, help='path to patches at 10x scale')
     parser.add_argument('--sourcex20', default="SOURCEPATH20", type=str, help='path to patches at 20x scale')
-    parser.add_argument('--step', default=10, type=int, help='train strategy')
+    parser.add_argument('--slurm_partition', default="SLURM_PARTIITION", type=str, help='slurm partition')
+    parser.add_argument('--step', default=10, type=int, help='how many slides process within each job')
     parser.add_argument('--dest', default="DESTINATIONPATH", type=str, help='destination folder')
     args = parser.parse_args()
     return args
