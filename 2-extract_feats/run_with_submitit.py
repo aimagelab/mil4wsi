@@ -1,9 +1,8 @@
-import submitit
+
+import os
 import sys
 import argparse
-import pandas as pd
-import utils
-from extract_feats.embedding_extract_tree import processSlide
+
 
 sys.path.append(os.environ["DINO_REPO"])
 sys.path.append('DASMIL-REPOSITORY PATH')

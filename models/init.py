@@ -2,9 +2,11 @@ import torch
 from models.dasmil import DASMIL
 
 
+
 # Dictionary of multi-scale models
-multi_scales_models = {
-    "WithGraph_y_Higher_kl_Lower":  {"model": DASMIL, "kl": "lower", "target": "higher"},
+
+multi_scales_models={
+    "DASMIL":  {"model":DASMIL,"kl":"lower","target":"higher"},
 }
 
 # Dictionary of single-scale models
