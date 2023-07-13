@@ -10,7 +10,7 @@ from torch_geometric.utils.num_nodes import maybe_num_nodes
 from torch_geometric.utils.subgraph import subgraph
 
 
-#code borrowed from pytorch geometric framework
+# code borrowed from pytorch geometric framework
 
 def dropout_node(edge_index: Tensor, p: float = 0.5,
                  num_nodes: Optional[int] = None,
@@ -63,4 +63,3 @@ def dropout_node(edge_index: Tensor, p: float = 0.5,
                                         num_nodes=num_nodes,
                                         return_edge_mask=True)
     return edge_index, edge_mask, node_mask
-

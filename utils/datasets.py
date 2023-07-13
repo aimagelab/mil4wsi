@@ -1,5 +1,5 @@
 import torch
-from torch_geometric.data import Dataset,Data
+from torch_geometric.data import Dataset, Data
 import glob
 import os
 import pandas as pd
@@ -8,17 +8,22 @@ from scipy.sparse import coo_matrix
 import torch_geometric.loader as geom_loader
 from utils.seed import seed_worker
 
+
 def get_loaders(args):
-    train_dataset= MyOwnDataset(root=args.datasetpath,type="train")
-    test_dataset= MyOwnDataset(root=args.datasetpath,type="test")
-    val_dataset=test_dataset
+    train_dataset = MyOwnDataset(root=args.datasetpath, type="train")
+    test_dataset = MyOwnDataset(root=args.datasetpath, type="test")
+    val_dataset = test_dataset
     # prepapare dataloader
     g = torch.Generator()
     g.manual_seed(args.seed)
-    graph_val_loader = geom_loader.DataLoader(val_dataset, batch_size=1, shuffle=True,generator=g,worker_init_fn=seed_worker)
-    graph_test_loader = geom_loader.DataLoader(test_dataset, batch_size=1,generator=g,worker_init_fn=seed_worker)
-    graph_train_loader = geom_loader.DataLoader(train_dataset, batch_size=1, shuffle=True,generator=g,worker_init_fn=seed_worker)
-    return graph_train_loader,graph_val_loader,graph_test_loader
+    graph_val_loader = geom_loader.DataLoader(
+        val_dataset, batch_size=1, shuffle=True, generator=g, worker_init_fn=seed_worker)
+    graph_test_loader = geom_loader.DataLoader(
+        test_dataset, batch_size=1, generator=g, worker_init_fn=seed_worker)
+    graph_train_loader = geom_loader.DataLoader(
+        train_dataset, batch_size=1, shuffle=True, generator=g, worker_init_fn=seed_worker)
+    return graph_train_loader, graph_val_loader, graph_test_loader
+
 
 def from_scipy_sparse_matrix(A):
     r"""Converts a scipy sparse matrix to edge indices and edge attributes.
@@ -33,12 +38,14 @@ def from_scipy_sparse_matrix(A):
     edge_weight = torch.from_numpy(A.data)
     return edge_index, edge_weight
 
+
 class MyOwnDataset(Dataset):
     def __init__(self, root, transform=None, pre_transform=None, type="train"):
         super(MyOwnDataset, self).__init__(root, transform, pre_transform)
-        self.type=type
-        self.bags=glob.glob(os.path.join(self.processed_dir,self.type, "*data*.pt"))
-        self.data=[torch.load(bag) for bag in self.bags]
+        self.type = type
+        self.bags = glob.glob(os.path.join(
+            self.processed_dir, self.type, "*data*.pt"))
+        self.data = [torch.load(bag) for bag in self.bags]
         self.lenght = len(self.bags)
 
     @property
