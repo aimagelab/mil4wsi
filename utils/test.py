@@ -1,12 +1,6 @@
 import torch
 import numpy as np
 from utils.metrics import computeMetrics
-from skimage import exposure, io, img_as_ubyte, transform
-import os
-import wandb
-import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
-from utils.qupath import processjson
 
 
 def test(model, testloader):

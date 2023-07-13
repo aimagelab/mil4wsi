@@ -6,11 +6,12 @@ In this work, with the objective of leveraging the full potential of pyramidal s
 
 ```bash
 'conda create -n wsissl python=3.9'
+'conda activate wsissl'
 'conda env update --file environment.yml
 ```
 
 # Data preparation
-Extract patches (".jpg") with your prefered patch extractor (e.g., CLAM) and save them in different folders for each resolution
+Extract patches (".jpg") with your preferred patch extractor (e.g., CLAM) and save them in different folders for each resolution
 ## Preprocessing (Hierarchical  patch organization)
 Given the folders of the different patch resolutions, it is possible to reorganize them in a hierarchical way 
 
@@ -19,7 +20,7 @@ via 1-sort_images/sort_hierarchy.py
 ```
 
 ## Feature extraction 
-Install DINO in a different folder and save the code location into the environment variable "DINO_REPO". Given the hierarchical patch organization it is possible to extract the embeddings, given the pretrained model path via 
+Install DINO in a different folder and save the code location into the environment variable "DINO_REPO". Given the hierarchical patch organization, it is possible to extract the embeddings, given the pre-trained model path via 
 
 ```bash
 2-extract_feats/run_with_submitit.py

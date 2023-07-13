@@ -1,9 +1,10 @@
-from utils.process import processDataset
-from utils.experiments import *
-from utils.parser import get_args
 import submitit
 import sys
 import os
+from utils.process import processDataset
+from utils.experiments import *
+from utils.parser import get_args
+
 os.environ["WANDB__SERVICE_WAIT"] = "300"
 # sys.path.append('.')
 

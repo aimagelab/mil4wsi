@@ -4,8 +4,6 @@ import os
 import submitit
 import pandas as pd
 import argparse
-import time
-import numpy as np
 
 
 def calcolate_shift(patch, level, base_size):

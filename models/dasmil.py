@@ -1,6 +1,6 @@
+import torch
 from models.utils.modules import GNNModel, FCLayer, BClassifier, MILNet, init
 from models.utils.basemodel import Baseline
-import torch
 
 
 class DASMIL(Baseline):

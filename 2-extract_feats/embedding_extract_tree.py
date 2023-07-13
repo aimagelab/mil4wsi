@@ -1,17 +1,5 @@
-from skimage.morphology import disk
-from skimage.filters.rank import entropy
-from skimage.color import rgb2hsv, rgb2gray, rgb2yuv
-from skimage.io import imread, imshow
-from joblib import dump
 import tqdm
-from torchvision import models as torchvision_models
 import vision_transformer as vits
-import utils as utils
-import torchvision.transforms.functional as VF
-import torch.nn as nn
-import torch
-from collections import OrderedDict
-from PIL import Image
 import numpy as np
 import pandas as pd
 import sys
@@ -19,6 +7,14 @@ import argparse
 import os
 import glob
 import copy
+import torchvision.transforms.functional as VF
+import torch.nn as nn
+import torch
+from joblib import dump
+from torchvision import models as torchvision_models
+from collections import OrderedDict
+from PIL import Image
+import utils as utils
 
 
 sys.path.append(os.environ["DINO_REPO"])

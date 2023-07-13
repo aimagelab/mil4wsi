@@ -1,10 +1,7 @@
 import torch
-from torch_geometric.data import Dataset, Data
 import glob
 import os
-import pandas as pd
-import numpy as np
-from scipy.sparse import coo_matrix
+from torch_geometric.data import Dataset
 import torch_geometric.loader as geom_loader
 from utils.seed import seed_worker
 

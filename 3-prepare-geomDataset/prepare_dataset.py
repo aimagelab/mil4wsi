@@ -1,16 +1,15 @@
 # PyTorch
 import torch
-from scipy.sparse import coo_matrix
-import os
-import glob
-import torch_geometric.nn as geom_nn
-import numpy as np
-import pandas as pd
-from torch_geometric.data import Data
-from torch_geometric.data import Dataset
 import submitit
 import argparse
 import joblib
+import os
+import glob
+import numpy as np
+from torch_geometric.data import Data
+from torch_geometric.data import Dataset
+from scipy.sparse import coo_matrix
+
 # Ensure that all operations are deterministic on GPU (if used) for reproducibility
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False

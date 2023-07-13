@@ -1,6 +1,5 @@
-from models.dasmil import DASMIL
-from torchsummary import summary
 import torch
+from models.dasmil import DASMIL
 
 
 multi_scales_models = {
