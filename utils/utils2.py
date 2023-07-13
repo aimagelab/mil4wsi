@@ -10,7 +10,7 @@ from torch_geometric.utils.num_nodes import maybe_num_nodes
 from torch_geometric.utils.subgraph import subgraph
 
 
-#code borrowed from pytorch geometric framework
+# code borrowed from pytorch geometric framework
 
 def dropout_node(edge_index: Tensor, p: float = 0.5,
                  num_nodes: Optional[int] = None,
@@ -46,21 +46,27 @@ def dropout_node(edge_index: Tensor, p: float = 0.5,
         >>> node_mask
         tensor([ True,  True, False, False])
     """
+    # Check if dropout probability is valid
     if p < 0. or p > 1.:
         raise ValueError(f'Dropout probability has to be between 0 and 1 '
                          f'(got {p}')
-
+    # Get the number of nodes from edge_index or num_nodes argument
     num_nodes = maybe_num_nodes(edge_index, num_nodes)
 
+    # If not in training mode or p=0, return all nodes and edges
     if not training or p == 0.0:
         node_mask = edge_index.new_ones(num_nodes, dtype=torch.bool)
         edge_mask = edge_index.new_ones(edge_index.size(1), dtype=torch.bool)
         return edge_index, edge_mask, node_mask
 
+    # Generate random probabilities for each node
     prob = torch.rand(num_nodes, device=edge_index.device)
+
+    # Create a node mask based on the dropout probability
     node_mask = prob > p
+    # Subgraph the original edge_index and get the corresponding edge mask
     edge_index, _, edge_mask = subgraph(node_mask, edge_index,
                                         num_nodes=num_nodes,
                                         return_edge_mask=True)
+    # Return the retained edge_index, edge_mask, and node_mask
     return edge_index, edge_mask, node_mask
-

@@ -1,13 +1,4 @@
-from collections import OrderedDict
-from os.path import join
-import math
-import pdb
-
-import numpy as np
-
-import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
 
 """
@@ -18,9 +9,11 @@ args:
     dropout: whether to use dropout (p = 0.25)
     n_classes: number of classes
 """
+
+
 class Attn_Net(nn.Module):
 
-    def __init__(self, L = 1024, D = 256, dropout = False, n_classes = 1):
+    def __init__(self, L=1024, D=256, dropout=False, n_classes=1):
         super(Attn_Net, self).__init__()
         self.module = [
             nn.Linear(L, D),
@@ -34,7 +27,7 @@ class Attn_Net(nn.Module):
         self.module = nn.Sequential(*self.module)
 
     def forward(self, x):
-        return self.module(x), x # N x n_classes
+        return self.module(x), x  # N x n_classes
 
 
 """
@@ -45,8 +38,10 @@ args:
     dropout: whether to use dropout (p = 0.25)
     n_classes: number of classes
 """
+
+
 class Attn_Net_Gated(nn.Module):
-    def __init__(self, L = 1024, D = 256, dropout = False, n_classes = 1):
+    def __init__(self, L=1024, D=256, dropout=False, n_classes=1):
         r"""
         Attention Network with Sigmoid Gating (3 fc layers)
 

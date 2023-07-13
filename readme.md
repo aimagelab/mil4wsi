@@ -6,6 +6,7 @@ In this work, with the objective of leveraging the full potential of pyramidal s
 
 ```bash
 'conda create -n wsissl python=3.9'
+'conda activate wsissl'
 'conda env update --file environment.yml
 ```
 
@@ -16,8 +17,6 @@ This work uses  [CLAM](https://github.com/mahmoodlab/CLAM) to filter out backgro
 - [Dino Training](https://github.com/facebookresearch/dino): Given the patches, train dino with ```vit_small``` option
 - [Feature Extraction](2-extract_feats/readme.md): extract patch features and adjacency matrices
 - [Geometric Dataset Conversion](3-prepare-geomDataset/readme.md): to easily work with graphs architectures
-
-
 
  # Training
 ```bash
