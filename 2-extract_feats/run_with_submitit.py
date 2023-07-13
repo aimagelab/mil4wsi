@@ -1,5 +1,6 @@
 import submitit
 import sys, argparse
+import os
 sys.path.append(os.environ["DINO_REPO"])
 sys.path.append('DASMIL-REPOSITORY PATH')
 

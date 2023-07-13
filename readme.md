@@ -9,35 +9,51 @@ In this work, with the objective of leveraging the full potential of pyramidal s
 'conda env update --file environment.yml
 ```
 
-# Data preparation
-Extract patches (".jpg") with your prefered patch extractor (e.g., CLAM) and save them in different folders for each resolution
-## Preprocessing (Hierarchical  patch organization)
-Given the folders of the different patch resolutions, it is possible to reorganize them in a hierarchical way 
+# Data Preprocessing
+This work uses  [CLAM](https://github.com/mahmoodlab/CLAM) to filter out background pacthes. After the .h5 coordinate generation, use:
+- [H5-to-jpg](0-extract_patches/readme.md) to convert h5 coordinates into jpg images
+- [Sort images](1-sort_images/readme.md) to reorganize patches into hierarchical folders
+- [Dino Training](https://github.com/facebookresearch/dino): Given the patches, train dino with ```vit_small``` option
+- [Feature Extraction](2-extract_feats/readme.md): extract patch features and adjacency matrices
+- [Geometric Dataset Conversion](3-prepare-geomDataset/readme.md): to easily work with graphs architectures
 
+
+
+ # Training
 ```bash
-via 1-sort_images/sort_hierarchy.py
+python main.py --datasetpath PATH --model DASMIL
 ```
 
-## Feature extraction 
-Install DINO in a different folder and save the code location into the environment variable "DINO_REPO". Given the hierarchical patch organization it is possible to extract the embeddings, given the pretrained model path via 
+# Reproducibility
 
-```bash
-2-extract_feats/run_with_submitit.py
-```
-## Pytorch Geometric Adaptation
+## Pretrained models
 
-```bash
-3-prepare-geomDataset/prepare_dataset.py
-```
-
-# Launch dasmil
-```bash
-python main.py
-```
+| DINO Camelyon16  | DINO LUNG |
+| :---: | :---:|
+| [x5]() Not Available | [x5]() Not Available|
+| [x10]() Not Available| [x10]() Not Available|
+| [x20]() Not Available| [x20]() Not Available|
 
 
-# Download Pretrained Models
+| DASMIL Camelyon16  | DASMIL LUNG |
+| :---: | :---: |
+| [model]() Not Available| [model]() Not Available|
 
-At this [Link](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil.zip) you can download the DINO feature extractors(as well as dasmil model) for both datasets
+
+## Pytorch Geometric - Extracted Features
+
+| Camelyon16  | LUNG |
+| :---: | :---: |
+| [x5]() Not Available | [x5]() Not Available |
+| [x10]() Not Available | [x10]() Not Available|
+| [x20]() Not Available | [x20]() Not Available |
+| [x5-x20]() Not Available | [x5-x20]() Not Available |
+| [x10-x20]() Not Available | [x10-x20]() Not Available |
 
 
+# TODOs
+- [ ] Refactor
+- [ ] Upload checkpoints
+- [ ] Upload feats
+
+# References

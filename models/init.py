@@ -4,7 +4,7 @@ import torch
 
 
 multi_scales_models={
-    "WithGraph_y_Higher_kl_Lower":  {"model":DASMIL,"kl":"lower","target":"higher"},
+    "DASMIL":  {"model":DASMIL,"kl":"lower","target":"higher"},
 }
 
 single_scales_models={}
