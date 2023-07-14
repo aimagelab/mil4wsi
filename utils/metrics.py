@@ -14,7 +14,9 @@ def multi_label_roc(labels, predictions, num_classes, pos_label=1):
         pos_label (int): Positive label.
 
     Returns:
-        tuple: Tuple containing the AUC values, thresholds, and optimal thresholds for each class.
+        aucs (list): AUC values.
+        thresholds (list): Thresholds.
+        thresholds_optimal (list): Optimal thresholds.
     """
     fprs = []
     tprs = []
@@ -48,7 +50,9 @@ def optimal_thresh(fpr, tpr, thresholds, p=0):
         p (float): Weight parameter for the loss function.
 
     Returns:
-        tuple: Tuple containing the optimal false positive rate, true positive rate, and threshold.
+        fpr[idx] (float): Optimal false positive rate.
+        tpr[idx] (float): Optimal true positive rate.
+        thresholds[idx] (float): Optimal threshold.
     """
     loss = (fpr - tpr) - p * tpr / (fpr + tpr + 1)
     idx = np.argmin(loss, axis=0)
@@ -66,7 +70,9 @@ def computeMetrics(test_labels, test_predictions, num_classes=2, names=[]):
         names (list): Class names.
 
     Returns:
-        tuple: Tuple containing the average score, AUC value, and class predictions.
+        avg_score (float): Average score.
+        auc_value[0] (float): AUC value.
+        class_prediction_bag (numpy.ndarray): Class predictions.
     """
     if test_predictions.shape[0] == 0:
         return None, None, None

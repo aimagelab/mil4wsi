@@ -19,20 +19,39 @@ import utils as utils
 
 sys.path.append(os.environ["DINO_REPO"])
 
-# Extract x and y coordinates from patch path
-
 
 def getinfo(patch):
+    """Extract x and y coordinates from patch path
 
+    Args:
+        patch (str): Path of the patch.
+
+    Returns:
+        tuple: Tuple containing the x and y coordinates extracted from the patch path.
+    """
     infos = patch.split(os.sep)[-1].split("_")
     y = int(infos[-1].split(".")[0])
     x = int(infos[-3])
     return x, y
 
-# Encapsulate patch information into a dictionary
-
 
 def encapsulate_patch_info(parent_id, x, y, id, shift, level, embedding, path):
+    """
+    Encapsulate patch information into a dictionary
+
+    Args:
+        parent_id (str): The ID of the parent patch.
+        x (int): The x-coordinate of the patch.
+        y (int): The y-coordinate of the patch.
+        id (str): The ID of the patch.
+        shift (int): The shift value of the patch.
+        level (int): The level of the patch.
+        embedding (np.ndarray): The embedding of the patch.
+        path (str): The path of the patch.
+
+    Returns:
+        kinfo (dict): A dictionary containing the patch information.
+    """
     kinfo = {}
     kinfo["childof"] = parent_id
     kinfo["x"] = x
@@ -44,10 +63,19 @@ def encapsulate_patch_info(parent_id, x, y, id, shift, level, embedding, path):
     kinfo["path"] = path
     return kinfo
 
-# Get the embedding for an image patch from the specified resolution level of the models
-
 
 def getembedding(models, img, level):
+    """
+    Get the embedding for an image patch from the specified resolution level of the models
+
+    Args:
+        models (List[Model]): The models used for embedding.
+        img (Image.Image): The image patch for which embedding is computed.
+        level (int): The resolution level from which embedding is extracted.
+
+    Returns:
+        embedding (np.ndarray): The embedding vector for the image patch.
+    """
     level = 3-level
     # img = Image.open(path)
     img = VF.to_tensor(img).float().cuda()
@@ -55,10 +83,22 @@ def getembedding(models, img, level):
     embedding = models[level](img).detach().cpu().numpy()
     return embedding
 
-# Get properties of a candidate from a CSV file
-
 
 def properties(candidate, path):
+    """
+    Get properties of a candidate from a CSV file
+
+Args:
+        candidate (int): The index of the candidate in the CSV file.
+        path (str): The path to the CSV file.
+
+    Returns:
+        real_name (str): The name of the image.
+        candidate (int): The index of the candidate.
+        label (str): The label of the candidate.
+        test (str): The phase of the candidate.
+        down (int): The down value.
+    """
     df = pd.read_csv(path)
     row = df.iloc[candidate]
     real_name = row["image"]
@@ -67,36 +107,63 @@ def properties(candidate, path):
     down = 0
     return real_name, id, label, test, down
 
- # Check the entropy of an image to determine its quality
-
 
 def checkentropy(image):
+    """
+    Check the entropy of an image to determine its quality
+
+     Args:
+        image (Image.Image): The image to check.
+
+    Returns:
+        bool: True if the image has high enough entropy, False otherwise.
+    """
+
     if image.entropy() < 5:
         return False
     else:
         return True
 
 
-# Recursively get children patches and their embeddings
-
-
 def get_children(parent_id, x_base, y_base, basepath, allowedlevels, level, models, kinfos, infosConcat, base_shift):
-    # if no children return list unchanged
+    """
+    Recursively get children patches and their embeddings
+
+    Args:
+        parent_id (str): The ID of the parent patch.
+        x_base (int): The base x-coordinate.
+        y_base (int): The base y-coordinate.
+        basepath (str): The base path to the image patches.
+        allowedlevels (List[int]): The allowed resolution levels.
+        level (int): The current resolution level.
+        models (List[Model]): The models used for embedding.
+        kinfos (List[Dict[str, Any]]): The list of patch information dictionaries.
+        infosConcat (List[Any]): The list to store concatenated embeddings.
+        base_shift (int): The base shift value.
+
+    Returns:
+        kinfos (List[Dict[str, Any]]): The list of patch information dictionaries.
+        infosConcat (List[Any]): The list of concatenated embeddings.
+    """
+
+    # If no children return list unchanged
     if level == 4:
         return kinfos, infosConcat
-    # calcolate children coordinates
+    # Calculate the shift value for the current level
     shift = int(base_shift/2**level)
+    # Calculate the updated coordinates based on the shift value
     upperleft = (x_base, y_base)
     lowleft = (x_base, y_base+shift)
     upperright = (x_base+shift, y_base)
     lowright = (x_base+shift, y_base+shift)
     if parent_id is not None:
         parent = kinfos[parent_id]
+    # Iterate over patches in the area enclosed by these coordinates
     for patch in [upperleft, lowleft, upperright, lowright]:
         x, y = patch
         path = glob.glob(os.path.join(
             basepath, "*_x_"+str(x)+"_y_"+str(y)+".jpg"))
-        # if file is not present continue
+        # If file is not present continue
         if len(path) == 0:
             continue
         path = path[0]
@@ -119,10 +186,19 @@ def get_children(parent_id, x_base, y_base, basepath, allowedlevels, level, mode
 
     return kinfos, infosConcat
 
-  # Search for neighboring patches and add the information to the DataFrame
+  #
 
 
 def search_neighboors(infos):
+    """
+    Search for neighboring patches and add the information to the DataFrame
+
+    Args:
+        infos (List[Dict]): List of dictionaries per patch to search.
+
+    Returns:
+        df(pd.DataFrame): The updated DataFrame with neighboring patches information.
+    """
     df = pd.DataFrame(infos)
     df["nearsto"] = None
     print("scanning for neighboors")
@@ -142,10 +218,17 @@ def search_neighboors(infos):
             df.at[df.index[df["id"] == patch["id"]][0], "nearsto"] = lista
     return df
 
- # Create an adjacency matrix based on the neighboring patches
-
 
 def create_matrix(df):
+    """
+    Create an adjacency matrix based on the neighboring patches
+
+    Args:
+        df (pd.DataFrame): The DataFrame containing patch information.
+
+    Returns:
+        matrix (torch.Tensor): The adjacency matrix.
+    """
     matrix = torch.zeros(size=[df.shape[0], df.shape[0]])
     for idx in range(df.shape[0]):
         patch = df.iloc[idx]
@@ -161,15 +244,25 @@ def create_matrix(df):
                 matrix[int(parent), int(i)] = 1
     return matrix
 
-# Compute tree features for a slide
-
 
 def compute_tree_feats_Slide(real_name, label, test, args, models, save_path=None, base_shift=2048):
+    """Compute tree features for a slide
+
+    Args:
+        real_name (str): The name of the slide.
+        label (str): The label of the candidate.
+        test (str): The phase of the candidate.
+        args (Any): The arguments for computation.
+        models (List[Model]): The models used for computation.
+        save_path (str, optional): The path to save the computed features. Defaults to None.
+        base_shift (int, optional): The base shift value. Defaults to 2048.
+    """
+
     allowedlevels = args.levels
     level = 1
     shift = int(base_shift/2**level)
     with torch.no_grad():
-        # initialize list
+        # Initialize lists
         torch.backends.cudnn.enabled = False
         infos = []
         infos_concat = []
@@ -177,7 +270,7 @@ def compute_tree_feats_Slide(real_name, label, test, args, models, save_path=Non
         low_patches = glob.glob(os.path.join(
             args.extractedpatchespath, real_name, '*.jpg'))
         for path in tqdm.tqdm(low_patches):
-            # extract info about patch
+            # Extract info about the patch
             x, y = getinfo(path)
             if level in allowedlevels:
                 embedding = getembedding(models, path, level)
@@ -189,7 +282,7 @@ def compute_tree_feats_Slide(real_name, label, test, args, models, save_path=Non
             else:
                 infos, infos_concat = get_children(None, x, y, path.split(
                     ".")[0], args.levels, level+1, models, infos, infos_concat, base_shift)
-        # infos should contain list of dicts per patch
+        # Infos should contain a list of dictionaries per patch
         infos = search_neighboors(infos)
         matrix = create_matrix(infos)
         os.makedirs(dest, exist_ok=True)
@@ -197,10 +290,21 @@ def compute_tree_feats_Slide(real_name, label, test, args, models, save_path=Non
         dump(infos, os.path.join(dest, "embeddings.joblib"))
         torch.save(matrix, os.path.join(dest, "adj.th"))
         del infos
-# Load parameters for a model
 
 
 def load_parameters(model, path, name, device):
+    """
+    Load parameters for a model
+
+    Args:
+        model (Any): The model to load parameters into.
+        path (str): The path to the parameter file.
+        name (str): The name of the model.
+        device (torch.device): The device to load the parameters on.
+
+    Returns:
+        model (): The model with loaded parameters.
+    """
     state_dict_weights = torch.load(path, map_location=device)
     for i in range(4):
         state_dict_weights.popitem()
@@ -214,8 +318,10 @@ def load_parameters(model, path, name, device):
 
 
 def main():
+    """Main function for computing features from DINO embedder"""
     parser = argparse.ArgumentParser(
         description='Compute features from DINO embedder')
+    # Parse command-line arguments
     parser.add_argument('--num_workers', default=4, type=int,
                         help='Number of threads for datalodaer')
     parser.add_argument('--norm_layer', default='instance',
@@ -243,15 +349,17 @@ def main():
                         help='Key to use in the checkpoint (example: "teacher")')
     args = parser.parse_args()
     model = buildnetwork(args)
-    # ============ building network ... ============
 
+  # Build the network model
     models = []
     weights = [args.pretrained_weights1,
                args.pretrained_weights2, args.pretrained_weights3]
     for idx in range(3):
+        # Create a deep copy of the model for each level
         net = copy.deepcopy(model)
         net = net.cuda()
         net.eval()
+        # Load pre-trained weights into the model
         utils.load_pretrained_weights(
             net, weights[idx], args.checkpoint_key, args.arch, args.patch_size)
         models.append(net)
@@ -263,21 +371,32 @@ def main():
     os.makedirs(feats_path, exist_ok=True)
     bags_list = glob.glob(bags_path)
     num_bags = len(bags_list)
+    # Process features for each slide
     for slideNumber in range(num_bags):
         compute_tree_feats_Slide(
             slideNumber, args, bags_list, models, feats_path)
 
 
 def processSlide(start, args):
+    """
+    Process slides starting from the specified index
+
+    Args:
+        start (int): The starting index of the slides.
+        args (Any): The command-line arguments.
+    """
+    # Build the network model
     model = buildnetwork(args)
     models = []
     weights = [args.pretrained_weights1,
                args.pretrained_weights2, args.pretrained_weights3]
     for idx in range(3):
+        # Create a deep copy of the model for each level
         net = copy.deepcopy(model)
         net = net.cuda()
         net.eval()
         if args.model == "dino":
+            # Load pre-trained weights into the model
             utils.load_pretrained_weights(
                 net, weights[idx], args.checkpoint_key, args.arch, args.patch_size)
         models.append(net)
@@ -301,20 +420,28 @@ def processSlide(start, args):
 
 
 def buildnetwork(args):
-    # ============ building network ... ============
-    # if the network is a Vision Transformer (i.e. vit_tiny, vit_small, vit_base)
+    """
+    Build the network model based on the provided arguments.
+
+    Args:
+        args (Any): The command-line arguments.
+
+    Returns:
+       model (Any): The built network model.
+    """
+    # If the network is a Vision Transformer (i.e. vit_tiny, vit_small, vit_base)
     if args.model == "dino":
         if args.arch in vits.__dict__.keys():
             model = vits.__dict__[args.arch](
                 patch_size=args.patch_size, num_classes=0)
             embed_dim = model.embed_dim * \
                 (args.n_last_blocks + int(args.avgpool_patchtokens))
-        # if the network is a XCiT
+        # If the network is a XCiT
         elif "xcit" in args.arch:
             model = torch.hub.load(
                 'facebookresearch/xcit:main', args.arch, num_classes=0)
             embed_dim = model.embed_dim
-        # otherwise, we check if the architecture is in torchvision models
+        # Otherwise, check if the architecture is in torchvision models
         elif args.arch in torchvision_models.__dict__.keys():
             model = torchvision_models.__dict__[args.arch]()
             embed_dim = model.fc.weight.shape[1]

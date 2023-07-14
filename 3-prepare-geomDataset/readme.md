@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 
-To convert the dataset into pytorch geometric launch:
+To convert the dataset into PyTorch geometric launch:
 
 ```bash
 python prepare_dataset.py --source PATH --dest PATH --levels 23

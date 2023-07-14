@@ -13,7 +13,8 @@ gnn_layer_by_name = {
 
 class GNNModel(nn.Module):
     def __init__(self, c_in, c_hidden, c_out, num_layers=2, layer_name="GAT", dp_rate=0.1, heads=3):
-        """Graph Neural Network (GNN) model.
+        """
+        Graph Neural Network (GNN) model.
 
         Args:
             c_in (int): Dimension of input features.
@@ -54,7 +55,7 @@ class GNNModel(nn.Module):
             edge_index (torch.Tensor): List of vertex index pairs representing the edges in the graph (PyTorch geometric notation).
 
         Returns:
-            torch.Tensor: Output features after passing through the GNN layers.
+             x (torch.Tensor): Output features after passing through the GNN layers.
         """
         for l in self.layers:
             # For graph layers, we need to add the "edge_index" tensor as additional input
@@ -97,7 +98,19 @@ class BClassifier(nn.Module):
         self.fcc = nn.Conv1d(output_class, output_class,
                              kernel_size=input_size)
 
-    def forward(self, feats, c):  # N x K, N x C
+    def forward(self, feats, c):
+        """Forward pass of the bag-level classifier.
+
+        Args:
+            feats (torch.Tensor): Input features.
+            c (torch.Tensor): Class scores.
+
+        Returns:
+            C (torch.Tensor): Bag-level predictions.
+            A (torch.Tensor): Attention scores.
+            B (torch.Tensor): Bag representations.
+        """
+        # N x K, N x C
         device = feats.device
         feats = self.lin(feats)
         V = self.v(feats)  # N x V, unsorted
@@ -144,7 +157,8 @@ class FCLayer(nn.Module):
             feats (torch.Tensor): Input features.
 
         Returns:
-            tuple(torch.Tensor, torch.Tensor): Tuple containing the input features and the output of the fully connected layer.
+            feats (torch.Tensor): Input features.
+            x (torch.Tensor) : Output of the fully connected layer.
         """
         x = self.fc(feats)
         return feats, x
@@ -171,8 +185,10 @@ class MILNet(nn.Module):
             x (torch.Tensor): Input data.
 
         Returns:
-            tuple(torch.Tensor): Tuple containing the predicted classes, bag-level predictions,
-                                 and intermediate variables A and B.
+            classes (torch.Tensor): Predicted classes.
+            prediction_bag (torch.Tensor): Bag-level predictions.
+            A (torch.Tensor): Attention scores.
+            B (torch.Tensor): Bag representations.
         """
         feats, classes = self.i_classifier(x)
         prediction_bag, A, B = self.b_classifier(feats, classes)

@@ -5,9 +5,9 @@ In this work, with the objective of leveraging the full potential of pyramidal s
 # Installation
 
 ```bash
-'conda create -n wsissl python=3.9'
-'conda activate wsissl'
-'conda env update --file environment.yml
+conda create -n wsissl python=3.9
+conda activate wsissl
+conda env update --file environment.yml
 ```
 
 # Data Preprocessing

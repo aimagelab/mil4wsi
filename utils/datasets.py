@@ -72,14 +72,35 @@ class MyOwnDataset(Dataset):
         self.bags = glob.glob(os.path.join(
             self.processed_dir, self.type, "*data*.pt"))
         self.data = [torch.load(bag) for bag in self.bags]
-        self.lenght = len(self.bags)
+        self.length = len(self.bags)
 
     @property
     def processed_file_names(self):
+        """
+        Property to get the processed file names.
+
+        Returns:
+            List: List of processed file names.
+        """
         return glob.glob(os.path.join(self.processed_dir, "*"))
 
     def len(self):
-        return self.lenght
+        """
+        Get the length of the dataset.
+
+        Returns:
+            int: Length of the dataset.
+        """
+        return self.length
 
     def get(self, idx):
+        """
+        Get the item at the given index.
+
+        Args:
+            idx (int): Index.
+
+        Returns:
+            torch_geometric.data.Data: Data object at the given index.
+        """
         return self.data[idx]

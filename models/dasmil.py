@@ -90,7 +90,7 @@ class DASMIL(Baseline):
             results (dict): Results dictionary.
 
         Returns:
-            dict: Results dictionary.
+            results (dict): Results dictionary.
         """
         # Second step: MIL
         results["lower"] = self.mil2(

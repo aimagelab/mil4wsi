@@ -8,13 +8,15 @@ class Baseline(nn.Module):
 
     def __init__(self, args, state_dict_weights=None):
         """
-        Inputs:
-            args: NameSpace
+        Baseline model for forward and loss computation.
+
+        Args:
+            args (Namespace): Arguments passed to the model.
+            state_dict_weights (Dict, optional): State dictionary of weights. Defaults to None.
         """
         super().__init__()
 
         # Store the arguments
-
         self.args = args
         self.target = args.target
         self.lamb = args.lamb
@@ -33,15 +35,17 @@ class Baseline(nn.Module):
         self.state_dict_weights = state_dict_weights
 
     def forward_scale(self, x: torch.Tensor, edge_index: torch.Tensor, gnnlayer: torch.nn.Module) -> tuple[torch.Tensor, torch.Tensor]:
-        """forward scale into gnn module
+        """
+        Forward pass at the scale level.
 
         Args:
-            x (torch.Tensor): input
-            edge_index (torch.Tensor): adjency matrix
-            gnnlayer (torch.nn.Module): module
+            x (torch.Tensor): Input features.
+            edge_index (torch.Tensor): Adjacency matrix.
+            gnnlayer (torch.nn.Module): GNN module.
 
         Returns:
-            tuple[torch.Tensor,torch.Tensor]: return output and new adiency matrix
+            x (torch.Tensor): Output features.
+            edge_index (torch.Tensor): Adjacency matrix.
         """
         r = x
         if self.training and self.args.dropout:
@@ -64,9 +68,6 @@ class Baseline(nn.Module):
             childof (torch.Tensor): Tensor indicating the parent-child relationship between nodes.
             edge_index2 (torch.Tensor, optional): Additional edge index tensor. Defaults to None.
             edge_index3 (torch.Tensor, optional): Additional edge index tensor. Defaults to None.
-
-        Returns:
-            None
         """
         NotImplementedError("forward_gnn error")
 
@@ -78,9 +79,6 @@ class Baseline(nn.Module):
             indecesperlevel (torch.Tensor): Tensor containing the indices per level.
             feats (torch.Tensor): Input features.
             results (dict): Dictionary to store the results.
-
-        Returns:
-            None
         """
         NotImplementedError("forward_mil error")
 
@@ -96,7 +94,7 @@ class Baseline(nn.Module):
             edge_index3 (torch.Tensor, optional): adjecency matrix of single scale
 
         Returns:
-            _type_: _description_
+            results (dict): model output
         """
         feats, indecesperlevel, results = self.forward_gnn(
             x, edge_index, levels, childof, edge_index2, edge_index3)
@@ -104,15 +102,16 @@ class Baseline(nn.Module):
         return results
 
     def compute_loss(self, loss_module_instance: torch.nn.Module, results: dict, bag_label: torch.Tensor) -> torch.Tensor:
-        """compute loss
+        """
+        Compute the loss of the model.
 
         Args:
-            loss_module_instance (torch.Module):  loss criterion
-            results (dict): model output
-            bag_label (torch.Tensor): GT
+            loss_module_instance (torch.nn.Module): Loss criterion.
+            results (dict): Model output.
+            bag_label (torch.Tensor): Ground truth labels.
 
         Returns:
-            torch.Tensor: return loss
+            loss (torch.Tensor): Loss value.
         """
         loss = 0
         # Target level prediction
@@ -144,10 +143,23 @@ class Baseline(nn.Module):
         return loss
 
     def predict(self, results):
+        """
+        Generate predictions based on the model's output results.
+
+        Args:
+            results (dict): Model output results.
+
+        Returns:
+            higher_prediction (torch.Tensor): Higher-level predictions.
+            lower_prediction (torch.Tensor): Lower-level predictions.
+        """
         prediction_patch_higher, prediction_bag_higher, _, _ = results[self.target]
+
         if self.classes > 1:
+            # For multi-class classification
             higher_prediction = torch.sigmoid(prediction_bag_higher)
             if self.kl is not None:
+                # If second scale predictions are available
                 _, prediction_bag_lower, A, B = results[self.kl]
                 lower_prediction = 0.5 * \
                     torch.sigmoid(prediction_bag_lower)+0.5 * \
@@ -155,10 +167,12 @@ class Baseline(nn.Module):
             else:
                 lower_prediction = None
         else:
+            # For binary classification
             higher_prediction = 0.5 * \
                 torch.sigmoid(prediction_bag_higher)[
                     :, -1]+0.5 * torch.sigmoid(prediction_bag_higher)[:, -1]
             if self.kl is not None:
+                # If second scale predictions are available
                 _, prediction_bag_lower, _, _ = results[self.kl]
                 lower_prediction = torch.sigmoid(prediction_bag_lower)[:, -1]
             else:
