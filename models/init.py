@@ -2,11 +2,10 @@ import torch
 from models.dasmil import DASMIL
 
 
-
 # Dictionary of multi-scale models
 
-multi_scales_models={
-    "DASMIL":  {"model":DASMIL,"kl":"lower","target":"higher"},
+multi_scales_models = {
+    "DASMIL":  {"model": DASMIL, "kl": "lower", "target": "higher"},
 }
 
 # Dictionary of single-scale models
@@ -21,7 +20,7 @@ def selectModel(args):
         args (Namespace): Command-line arguments.
 
     Returns:
-        torch.nn.Module: The selected model.
+        model (torch.nn.Module): The selected model.
     """
     # Load the state dict weights from the checkpoint
     state_dict_weights = torch.load(

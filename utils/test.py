@@ -4,6 +4,22 @@ from utils.metrics import computeMetrics
 
 
 def test(model, testloader):
+    """
+    Perform testing on the model.
+
+    Args:
+        model (torch.nn.Module): Model to be tested.
+        testloader (torch.utils.data.DataLoader): DataLoader for the test dataset.
+
+    Returns:
+        avg_score_higher (float): Average score for higher-level predictions.
+        avg_score_lower (float): Average score for lower-level predictions.
+        auc_value_higher (float): AUC value for higher-level predictions.
+        auc_value_lower (float): AUC value for lower-level predictions.
+        class_prediction_bag_higher (numpy.ndarray): Class predictions for higher-level predictions.
+        class_prediction_bag_lower (numpy.ndarray): Class predictions for lower-level predictions.
+        test_labels (numpy.ndarray): Ground truth labels.
+    """
     model.eval()
     results = []
     test_predictions0 = []

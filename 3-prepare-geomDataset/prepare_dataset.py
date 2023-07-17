@@ -28,10 +28,15 @@ levels = args.levels
 
 
 def from_scipy_sparse_matrix(A):
-    r"""Converts a scipy sparse matrix to edge indices and edge attributes.
+    """
+    Converts a scipy sparse matrix to edge indices and edge attributes.
 
     Args:
         A (scipy.sparse): A sparse matrix.
+
+    Returns:
+        edge_index (torch.Tensor): Edge indices tensor of shape (2, num_edges).
+        edge_weight (torch.Tensor): Edge attributes tensor of shape (num_edges,).
     """
     A = A.tocoo()
     row = torch.from_numpy(A.row).to(torch.long)
@@ -42,6 +47,18 @@ def from_scipy_sparse_matrix(A):
 
 
 class MyOwnDataset(Dataset):
+    """
+    Custom dataset for processing and accessing data.
+
+    Args:
+        root (str): Root directory of the dataset.
+        transform (callable, optional): A function/transform that takes in an
+            object and returns a transformed version. Defaults to None.
+        pre_transform (callable, optional): A function/transform that takes in an
+            object and returns a transformed version. Defaults to None.
+        type (str, optional): Type of the dataset. Defaults to "train".
+    """
+
     def __init__(self, root, transform=None, pre_transform=None, type="train"):
         super(MyOwnDataset, self).__init__(root, transform, pre_transform)
         self.type = type
@@ -50,24 +67,44 @@ class MyOwnDataset(Dataset):
 
     @property
     def raw_file_names(self):
+        """
+        Returns a list of raw file names in the dataset.
+
+        Returns:
+            list: List of raw file names.
+        """
         return ['some_file_1', 'some_file_2', ...]
 
     @property
     def processed_file_names(self):
+        """
+        Returns a list of processed file names in the dataset.
+
+        Returns:
+            list: List of processed file names.
+        """
         return glob.glob(os.path.join(self.processed_dir, "*"))
 
     def len(self):
+        """
+        Returns the length of the dataset.
+
+        Returns:
+            int: Length of the dataset.
+        """
         return self.lenght
 
     def process(self):
+        """
+        Process the dataset and save processed data.
+        """
         bags = glob.glob(os.path.join(source, "*/*"))
         totLevels = levels
         for idx, bag in enumerate(bags):
             # Get data structure
             try:
-
+                # Load patches and metadata
                 patches = joblib.load(os.path.join(bag, "embeddings.joblib"))
-                # Get metadata
                 patch_level = patches["level"]
                 patch_childof = patches["childof"]
                 if "label" in patches.columns:
@@ -82,6 +119,7 @@ class MyOwnDataset(Dataset):
                 for i in range(size):
                     x.append(torch.Tensor(np.matrix(embeddings[i])))
                 X = torch.vstack(x)
+
                 # Get full adjency matrix
                 matrix_adj = torch.load(os.path.join(bag, "adj.th"))
 
@@ -130,7 +168,7 @@ class MyOwnDataset(Dataset):
                         label = 1
                     else:
                         label = 0
-                # Read data from `raw_path`.
+                # Create data object
                 data = Data(x=X, edge_index=edge_index, edge_index_filtered=edge_index_filtered, edge_index_2=edge_index_2, edge_index_3=edge_index_3, childof=torch.LongTensor(patch_childof), level=torch.LongTensor(
                     patch_level), y=torch.LongTensor([label]), name=os.path.basename(bag), patch_label=torch.LongTensor(patch_label), x_coord=torch.LongTensor(patches["x"]), y_coord=torch.LongTensor(patches["y"]))
 
@@ -154,12 +192,24 @@ class MyOwnDataset(Dataset):
                 print(bag)
 
     def get(self, idx):
+        """
+        Get the data object at the specified index.
+
+        Args:
+            idx (int): Index of the data object.
+
+        Returns:
+            Data: The data object at the specified index.
+        """
         data = torch.load(os.path.join(
             self.processed_dir, 'data_{}.pt'.format(idx)))
         return data
 
 
 def prepareslide():
+    """
+    Prepare the slide dataset for processing.
+    """
     global levels
     global dest
     global source
@@ -168,10 +218,16 @@ def prepareslide():
 
 
 def main():
+    """
+    Execution setting.
+    """
     log_folder = "log_test/%j"
+    # Create an AutoExecutor instance with the log folder
     executor = submitit.AutoExecutor(folder=log_folder)
+    # Update the parameters of the executor
     executor.update_parameters(
         slurm_partition="prod", name="data_prep", slurm_time=1200, cpus_per_task=5, mem_gb=20)
+    # Submit the prepareslide function as a job
     jobs = executor.submit(prepareslide)
 
 

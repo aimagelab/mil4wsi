@@ -30,9 +30,10 @@ def dropout_node(edge_index: Tensor, p: float = 0.5,
             :obj:`max_val + 1` of :attr:`edge_index`. (default: :obj:`None`)
         training (bool, optional): If set to :obj:`False`, this operation is a
             no-op. (default: :obj:`True`)
-
-    :rtype: (:class:`LongTensor`, :class:`BoolTensor`, :class:`BoolTensor`)
-
+    Returns:
+            edge_index (LongTensor): The edge indices.
+            edge_mask (BoolTensor): The edge mask indicating which edges were retained.
+            node_mask (BoolTensor): The node mask indicating which nodes were retained.
     Examples:
 
         >>> edge_index = torch.tensor([[0, 1, 1, 2, 2, 3],
