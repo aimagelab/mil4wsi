@@ -1,5 +1,5 @@
 import torch
-from models.dasmil import DASMIL
+from models.dasmil.dasmil import DASMIL
 
 
 # Dictionary of multi-scale models
