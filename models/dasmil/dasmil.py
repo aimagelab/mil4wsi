@@ -6,8 +6,11 @@ import torch
 class DASMIL(Baseline):
     def __init__(self, args,state_dict_weights):
         """
-        Inputs:
-            args: DASMIL model implementation
+        DASMIL model implementation.
+
+        Args:
+            args: Arguments for DASMIL model.
+            state_dict_weights: State dictionary weights.
         """
         super(DASMIL,self).__init__(args,state_dict_weights)
         self.GNNlast = GNNModel(c_in=self.c_in,
@@ -24,17 +27,17 @@ class DASMIL(Baseline):
                             num_layers=args.num_layers, layer_name=args.layer_name, dp_rate=args.dropout_rate,heads=args.heads)
 
         if self.residual:
-            self.glu1=GatedLinearUnit(self.c_in,self.c_in,norm=False)
-            self.glu2=GatedLinearUnit(self.c_in,self.c_in,norm=False)
-            self.glulast=GatedLinearUnit(self.c_in,self.c_in,norm=False)
+            self.glu1 = GatedLinearUnit(self.c_in,self.c_in,norm=False)
+            self.glu2 = GatedLinearUnit(self.c_in,self.c_in,norm=False)
+            self.glulast = GatedLinearUnit(self.c_in,self.c_in,norm=False)
 
 
-        mil2fc,mil2bag=FCLayer(self.c_hidden,self.classes),BClassifier(self.c_hidden,self.classes)
-        self.mil2=MILNet(mil2fc,mil2bag)
-        mil3fc,mil3bag=FCLayer(self.c_hidden,self.classes),BClassifier(self.c_hidden,self.classes)
-        self.mil3=MILNet(mil3fc,mil3bag)
-        self.mil2=init(self.mil2,self.state_dict_weights)
-        self.mil3=init(self.mil3,self.state_dict_weights)
+        mil2fc,mil2bag = FCLayer(self.c_hidden,self.classes),BClassifier(self.c_hidden,self.classes)
+        self.mil2 = MILNet(mil2fc,mil2bag)
+        mil3fc,mil3bag = FCLayer(self.c_hidden,self.classes),BClassifier(self.c_hidden,self.classes)
+        self.mil3 = MILNet(mil3fc,mil3bag)
+        self.mil2 = init(self.mil2,self.state_dict_weights)
+        self.mil3 = init(self.mil3,self.state_dict_weights)
 
 
 
