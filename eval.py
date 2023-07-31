@@ -1,20 +1,31 @@
-from utils.datasets import get_loaders
-from models.init import selectModel
+import submitit,sys,os
+from utils.process import eval
+os.environ["WANDB__SERVICE_WAIT"] = "300"
+
 from utils.parser import get_args
 from utils.experiments import *
+from utils.process import processDataset
+# Ensure that all operations are deterministic on GPU (if used) for reproducibility
 
-# Get command-line arguments
-args = get_args()
+def main():
+    args = get_args()
+    executor = submitit.AutoExecutor(folder=args.logfolder, slurm_max_num_timeout=30)
+    executor.update_parameters(
+            mem_gb=args.mem,
+            slurm_gpus_per_task=args.nodes,
+            tasks_per_node=args.nodes,  # one task per GPU
+            slurm_cpus_per_gpu=args.nodes,
+            nodes=args.nodes,
+            timeout_min=args.time,  # max is 60 * 72
+            # Below are cluster dependent parameters
+            slurm_partition=args.partition,
+            slurm_signal_delay_s=120,
+            slurm_array_parallelism=args.job_parallel)
+    executor.update_parameters(name=args.job_name)
+    experiments=[]
+    experiments=experiments+launch_DASMIL_cam(args)+launch_DASMIL_lung(args)
+    executor.map_array(eval,[experiments[1]])
+    #eval(experiments[1])
 
-# Get data loaders
-train_loader, val_loader, test_loader = get_loaders(args)
-
-# Select model based on arguments
-model = selectModel(args)
-
-# Perform testing
-avg_score_higher_test, avg_score_lower_test, auc_value_higher_test, auc_value_lower_test, _, _, _ = test(
-    model, testloader=test_loader)
-
-# Print accuracy and AUC values
-print("acc: "+avg_score_higher_test+"auc: " + auc_value_higher_test)
+if __name__ == '__main__':
+    main()

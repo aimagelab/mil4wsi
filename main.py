@@ -16,27 +16,23 @@ os.environ["WANDB__SERVICE_WAIT"] = "300"
 def main():
     # Get command line arguments
     args = get_args()
-    executor = submitit.AutoExecutor(
-        folder="LOGFOLDER", slurm_max_num_timeout=30)
+    executor = submitit.AutoExecutor(folder=args.logfolder, slurm_max_num_timeout=30)
     executor.update_parameters(
-        mem_gb=32,
-        slurm_gpus_per_task=1,
-        tasks_per_node=1,  # one task per GPU
-        slurm_cpus_per_gpu=1,
-        nodes=1,
-        timeout_min=120,  # max is 60 * 72
-        # Below are cluster dependent parameters
-        slurm_partition="prod",
-        slurm_signal_delay_s=120,
-        slurm_array_parallelism=15)
-
-    # Prepare list of experiments
-    experiments = []
-    experiments = experiments+[args]
-
-    # Map the processDataset function to the list of experiments for execution
-    executor.map_array(processDataset, [experiments[0]])
-
+            mem_gb=args.mem,
+            slurm_gpus_per_task=args.nodes,
+            tasks_per_node=args.nodes,  # one task per GPU
+            slurm_cpus_per_gpu=args.nodes,
+            nodes=args.nodes,
+            timeout_min=args.time,  # max is 60 * 72
+            # Below are cluster dependent parameters
+            slurm_partition=args.partition,
+            slurm_signal_delay_s=120,
+            slurm_array_parallelism=args.job_parallel)
+    executor.update_parameters(name=args.job_name)
+    experiments=[]
+    experiments=experiments+[args]
+    #executor.map_array(processDataset,[experiments[0]])
+    processDataset(experiments[0])
 
 if __name__ == '__main__':
     main()

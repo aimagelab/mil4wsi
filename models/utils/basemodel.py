@@ -8,33 +8,26 @@ class Baseline(nn.Module):
 
     def __init__(self, args, state_dict_weights=None):
         """
-        Baseline model for forward and loss computation.
-
-        Args:
-            args (Namespace): Arguments passed to the model.
-            state_dict_weights (Dict, optional): State dictionary of weights. Defaults to None.
+        Inputs:
+            args: NameSpace
         """
         super().__init__()
+        self.args=args
+        self.target= args.target
+        self.lamb=args.lamb
+        self.beta=args.beta
+        self.dropout= args.dropout
+        self.tau=args.temperature
+        self.kl= args.kl
+        self.residual=args.residual
+        self.c_in=args.input_size
+        self.classes=args.n_classes
+        self.c_hidden=args.c_hidden
+        self.add_bias=args.add_bias
+        self.state_dict_weights=state_dict_weights
 
-        # Store the arguments
-        self.args = args
-        self.target = args.target
-        self.lamb = args.lamb
-        self.beta = args.beta
-        self.dropout = args.dropout
-        self.tau = args.temperature
-        self.kl = args.kl
-        self.residual = args.residual
-        self.c_in = args.input_size
-        self.classes = args.n_classes
-        self.c_hidden = args.c_hidden
-        self.add_bias = args.add_bias
-        self.betapreg = args.preg
-        self.max = args.max
 
-        self.state_dict_weights = state_dict_weights
-
-    def forward_scale(self, x: torch.Tensor, edge_index: torch.Tensor, gnnlayer: torch.nn.Module) -> tuple[torch.Tensor, torch.Tensor]:
+    def forward_scale(self,x: torch.Tensor,edge_index: torch.Tensor,gnnlayer: torch.nn.Module, glu=None)-> tuple[torch.Tensor,torch.Tensor]:
         """
         Forward pass at the scale level.
 
@@ -52,7 +45,9 @@ class Baseline(nn.Module):
             edge_index, _, _ = dropout_node(edge_index=edge_index)
         x = gnnlayer(x, edge_index)
         if self.residual:
-            x = r+x
+            if glu is not None:
+                x=glu(x)
+            x=r+x
         else:
             x = x
         return x, edge_index

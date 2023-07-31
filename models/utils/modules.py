@@ -196,6 +196,31 @@ class MILNet(nn.Module):
         return classes, prediction_bag, A, B
 
 
+class MLP(nn.Module):
+    def __init__(self,in_s,out_s):
+        super(MLP,self).__init__()
+        self.mlp=nn.Sequential( nn.Linear(int(in_s),int(in_s/2)),
+                                nn.ELU(),
+                                nn.Linear(int(in_s/2),int(out_s))
+                                )
+    def forward(self,input):
+        return self.mlp(input)
+
+class GatedLinearUnit(nn.Module):
+    def __init__(self, in_s,out_s,norm):
+        super(GatedLinearUnit, self).__init__()
+        self.mlp =MLP(in_s,out_s)
+        self.sigmoid = nn.Sigmoid()
+        self.norm=norm
+        if self.norm:
+            self.norm=nn.LayerNorm(normalized_shape=out_s)
+
+    def forward(self, inputs):
+        x=inputs * self.sigmoid(self.mlp(inputs))
+        if self.norm:
+            x=self.norm(x)
+        return x
+
 def init(model, state_dict_weights):
     """
     Initialize the model with the provided state_dict_weights.

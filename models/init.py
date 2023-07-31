@@ -16,6 +16,7 @@ def selectModel(args):
     """
     Selects the appropriate model based on the provided arguments.
 
+<<<<<<< HEAD
     Args:
         args (Namespace): Command-line arguments.
 
@@ -29,6 +30,15 @@ def selectModel(args):
     print("model " + args.modeltype)
     if len(args.scale) > 1:
         d = multi_scales_models[args.modeltype]
+=======
+    if args.checkpoint is not None:
+        state_dict_weights = torch.load(args.checkpoint, map_location=torch.device('cpu'))
+    else:
+        state_dict_weights= None
+    print("model "+ args.modeltype)
+    if len(args.scale)>1:
+        d= multi_scales_models[args.modeltype]
+>>>>>>> 621878a (update)
     else:
         d = single_scales_models[args.modeltype]
 

@@ -51,21 +51,25 @@ def get_args():
     group6 = parser.add_argument_group("distillation")
     group6.add_argument('--lamb', default=1, type=float, help='lambda')
     group6.add_argument('--beta', default=1, type=float, help='beta')
-    group6.add_argument('--temperature', default=1.5,
-                        type=float, help='temperature')
-    group6.add_argument('--add_bias', default=True, action="store_true")
+    group6.add_argument('--temperature', default=1.5, type=float, help='temperature')
+    group6.add_argument('--add_bias', default=True,action="store_true")
+    group6.add_argument('--checkpoint', default=None,type=str, help='checkpoint')
 
-    # Miscellaneous arguments
-    parser.add_argument('--tag', default="split",
-                        type=str, help='train strategy')
-    parser.add_argument(
-        '--modeltype', default="WithGraph_y_Higher_kl_Lower", type=str, help='train strategy')
-    parser.add_argument('--project', default="decider-geom",
-                        type=str, help='project name for wandb')
-    parser.add_argument('--model', default="decider-geom",
-                        type=str, help='project name for wandb')
-    parser.add_argument('--wandbname', default="main",
-                        type=str, help='project name for wandb')
+    parser.add_argument('--tag', default="split", type=str, help='train strategy')
+    parser.add_argument('--modeltype', default="DASMIL", type=str, help='train strategy')
+    parser.add_argument('--project', default="decider-geom", type=str, help='project name for wandb')
+    parser.add_argument('--model', default="decider-geom", type=str, help='project name for wandb')
+    parser.add_argument('--wandbname', default="main", type=str, help='project name for wandb')
+
+
+    group7= parser.add_argument_group("submitit")
+    group7.add_argument('--partition', default="prod",type=str,help='partition name')
+    group7.add_argument('--time', default=120, type=float, help='job duration')
+    group7.add_argument('--nodes', default=1, type=int, help='number of jobs')
+    group7.add_argument('--job_name', default="dasmil",type=str,help="job name")
+    group7.add_argument('--mem', default=32, type=int, help='ram requested GB')
+    group7.add_argument('--job_parallel', default=10, type=int, help='number of jobs in parallel')
+    group7.add_argument('--logfolder', default="logfolder", type=str, help='log folder location name')
 
     args = parser.parse_args()
     return args
