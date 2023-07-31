@@ -1,22 +1,35 @@
 import torch
 from models.dasmil.dasmil import DASMIL
-
+from models.dsmil.dsmil import DSMIL
+from models.abmil.abmil import ABMIL
+from models.maxpooling.maxpooling import MaxPooling
+from models.meanpooling.meanpooling import MeanPooling
+from models.transmil.transmil import TransMIL
+from models.buffermil.buffermil import Buffermil
+from models.hipt.hipt import HIPT_LGP_FC
 
 # Dictionary of multi-scale models
 
 multi_scales_models = {
     "DASMIL":  {"model": DASMIL, "kl": "lower", "target": "higher"},
+     "hipt": {"model":HIPT_LGP_FC,"kl":None,"target":"higher"},
 }
 
 # Dictionary of single-scale models
-single_scales_models = {}
+single_scales_models = {
+    "DSMIL":  {"model": DSMIL, "kl": "lower", "target": "higher"},
+    "ABMIL":  {"model": ABMIL, "kl": "lower", "target": "higher"},
+    "MaxPooling":  {"model": MaxPooling, "kl": "lower", "target": "higher"},
+    "MeanPooling":  {"model": MeanPooling, "kl": "lower", "target": "higher"},
+    "TransMIL":  {"model": TransMIL, "kl": "lower", "target": "higher"},
+    "Buffermil":  {"model": Buffermil, "kl": "lower", "target": "higher"},
+}
 
 
 def selectModel(args):
     """
     Selects the appropriate model based on the provided arguments.
 
-<<<<<<< HEAD
     Args:
         args (Namespace): Command-line arguments.
 
@@ -24,13 +37,7 @@ def selectModel(args):
         model (torch.nn.Module): The selected model.
     """
     # Load the state dict weights from the checkpoint
-    state_dict_weights = torch.load(
-        args.checkpoint, map_location=torch.device('cpu'))
 
-    print("model " + args.modeltype)
-    if len(args.scale) > 1:
-        d = multi_scales_models[args.modeltype]
-=======
     if args.checkpoint is not None:
         state_dict_weights = torch.load(args.checkpoint, map_location=torch.device('cpu'))
     else:
@@ -38,7 +45,6 @@ def selectModel(args):
     print("model "+ args.modeltype)
     if len(args.scale)>1:
         d= multi_scales_models[args.modeltype]
->>>>>>> 621878a (update)
     else:
         d = single_scales_models[args.modeltype]
 
