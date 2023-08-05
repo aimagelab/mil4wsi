@@ -32,28 +32,29 @@ python main.py --datasetpath PATH --model DASMIL
 
 |    DINO Camelyon16    |       DINO LUNG       |
 | :-------------------: | :-------------------: |
-| [x5]() Not Available  | [x5]() Not Available  |
-| [x10]() Not Available | [x10]() Not Available |
-| [x20]() Not Available | [x20]() Not Available |
+| [x5](https://ailb-web.ing.unimore.it/publicfiles/drive/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x5/checkpoint.pth.gz)  | [x5](https://ailb-web.ing.unimore.it/publicfiles/drive/miccai_dasmil_checkpoints/dasmil/lung/dino/x5/checkpoint.pth.gz) |
+| [x10](https://ailb-web.ing.unimore.it/publicfiles/drive/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x10/checkpoint.pth.gz) | [x10](https://ailb-web.ing.unimore.it/publicfiles/drive/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x10/checkpoint.pth.gz) |
+| [x20](https://ailb-web.ing.unimore.it/publicfiles/drive/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x20/checkpoint.pth.gz) | [x20](https://ailb-web.ing.unimore.it/publicfiles/drive/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x20/checkpoint.pth.gz) |
 
 |    DASMIL Camelyon16    |       DASMIL LUNG       |
 | :---------------------: | :---------------------: |
-| [model]() Not Available | [model]() Not Available |
+| [model](https://ailb-web.ing.unimore.it/publicfiles/drive/miccai_dasmil_checkpoints/dasmil/camelyon16/mil/model_cam.pt.gz) | [model](https://ailb-web.ing.unimore.it/publicfiles/drive/miccai_dasmil_checkpoints/dasmil/lung/mil/model_lung.pt.gz) |
 
 ## Pytorch Geometric - Extracted Features
 
-|        Camelyon16         |           LUNG            |
-| :-----------------------: | :-----------------------: |
-|   [x5]() Not Available    |   [x5]() Not Available    |
-|   [x10]() Not Available   |   [x10]() Not Available   |
-|   [x20]() Not Available   |   [x20]() Not Available   |
-| [x5-x20]() Not Available  | [x5-x20]() Not Available  |
-| [x10-x20]() Not Available | [x10-x20]() Not Available |
+[Camelyon]() Not Available, [Lung]() Not Available
+
+## Eval
+
+setup checkpoints and datasets paths in utils/experiment.py
+then
+```bash
+python eval.py 
+```
 
 # TODOs
 
-- [ ] Refactor
-- [ ] Upload checkpoints
+- [x] Refactor
+- [x] Upload checkpoints
 - [ ] Upload feats
 
-# References
