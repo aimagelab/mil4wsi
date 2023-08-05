@@ -1,5 +1,13 @@
 # DAS-MIL
-
+Accepted at MICCAI2023 
+```
+@inproceedings{Bontempo2023,
+  title={{DAS-MIL: Distilling Across Scales for MIL Classification of Histological WSIs}},
+  author={Bontempo, Gianpaolo and Porrello, Angelo and Bolelli, Federico and Calderara, Simone and Ficarra, Elisa},
+  booktitle={{Medical Image Computing and Computer Assisted Intervention – MICCAI 2023}},
+  year={2023}
+}
+```
 In this work, intending to leverage the full potential of pyramidal structured WSI, we propose a graph-based multi-scale MIL approach, DAS-MIL, that exploits message passing to let information flows across multiple scales. Employing a knowledge distillation schema, the alignment between the latent space representation at different resolutions is encouraged while preserving the diversity in the informative content.
 
 # Installation
