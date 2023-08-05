@@ -1,14 +1,5 @@
-# DAS-MIL
-Accepted at MICCAI2023 
-```
-@inproceedings{Bontempo2023,
-  title={{DAS-MIL: Distilling Across Scales for MIL Classification of Histological WSIs}},
-  author={Bontempo, Gianpaolo and Porrello, Angelo and Bolelli, Federico and Calderara, Simone and Ficarra, Elisa},
-  booktitle={{Medical Image Computing and Computer Assisted Intervention – MICCAI 2023}},
-  year={2023}
-}
-```
-In this work, intending to leverage the full potential of pyramidal structured WSI, we propose a graph-based multi-scale MIL approach, DAS-MIL, that exploits message passing to let information flows across multiple scales. Employing a knowledge distillation schema, the alignment between the latent space representation at different resolutions is encouraged while preserving the diversity in the informative content.
+# Introduction
+Welcome to the mil4wsi Framework – your gateway to state-of-the-art Multiple Instance Learning (MIL) model implementations for gigapixel whole slide images. This comprehensive open-source repository empowers researchers, developers, and enthusiasts to explore and leverage cutting-edge MIL techniques.
 
 # Installation
 
@@ -22,11 +13,22 @@ conda env update --file environment.yml
 
 This work uses [CLAM](https://github.com/mahmoodlab/CLAM) to filter out background patches. After the .h5 coordinate generation, use:
 
-- [H5-to-jpg](0-extract_patches/readme.md) to convert h5 coordinates into jpg images
-- [Sort images](1-sort_images/readme.md) to reorganize patches into hierarchical folders
+- [H5-to-jpg](0-extract_patches/readme.md): It converts .h5 coordinates into jpg images
+- [Sort images](1-sort_images/readme.md): It reorganizes patches into hierarchical folders
 - [Dino Training](https://github.com/facebookresearch/dino): Given the patches, train dino with the `vit_small` option
-- [Feature Extraction](2-extract_feats/readme.md): extract patch features and adjacency matrices
-- [Geometric Dataset Conversion](3-prepare-geomDataset/readme.md): to easily work with graphs architectures
+- [Feature Extraction](2-extract_feats/readme.md): It extracts patch features and adjacency matrices
+- [Geometric Dataset Conversion](3-prepare-geomDataset/readme.md): It  allows to work with graphs architectures and PyTorch geometric
+
+# Available Models
+- [MaxPooling](https://github.com/aimagelab/mil4wsi/tree/main/models/maxpooling)
+- [MeanPooling](https://github.com/aimagelab/mil4wsi/tree/main/models/meanpooling)
+- [ABMIL](https://github.com/aimagelab/mil4wsi/tree/main/models/abmil)
+- [DSMIL](https://github.com/aimagelab/mil4wsi/tree/main/models/dsmil)
+- [DASMIL](https://github.com/aimagelab/mil4wsi/tree/main/models/dasmil)
+- [BUFFERMIL](https://github.com/aimagelab/mil4wsi/tree/main/models/buffermil)
+- [TRANSMIL](https://github.com/aimagelab/mil4wsi/tree/main/models/transmil)
+- [HIPT](https://github.com/aimagelab/mil4wsi/tree/main/models/hipt)
+
 
 # Training
 
@@ -68,3 +70,6 @@ python eval.py
 - [x] Upload checkpoints
 - [ ] Upload feats
 
+# Contributing
+
+We encourage and welcome contributions from the community to help improve the MIL Models Framework and make it even more valuable for the entire machine-learning community. 
