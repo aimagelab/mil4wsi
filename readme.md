@@ -50,7 +50,9 @@ python main.py --datasetpath PATH --model DASMIL
 
 ## Pytorch Geometric - Extracted Features
 
-[Camelyon]() Not Available, [Lung]() Not Available
+|     Camelyon16    |        LUNG       |
+| :---------------------: | :---------------------: |
+| [Dataset]() Not Available | [Dataset]() Not Available |
 
 ## Eval
 
