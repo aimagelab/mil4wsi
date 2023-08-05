@@ -24,7 +24,7 @@ def main():
     executor.update_parameters(name=args.job_name)
     experiments=[]
     experiments=experiments+launch_DASMIL_cam(args)+launch_DASMIL_lung(args)
-    executor.map_array(eval,[experiments[1]])
+    executor.map_array(eval,experiments)
     #eval(experiments[1])
 
 if __name__ == '__main__':

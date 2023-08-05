@@ -7,15 +7,10 @@ import vision_transformer as vits
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import pdb
-import numpy as np
-from os.path import join
-from collections import OrderedDict
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from hiptutils import *
-from models.utils.modules import FCLayer,BClassifier,MILNet,init
+from .utils import *
 import torch
 from models.utils.basemodel import Baseline
 from utils.utils2 import dropout_node

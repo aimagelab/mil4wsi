@@ -30,6 +30,10 @@ class DASMIL(Baseline):
             self.glu1 = GatedLinearUnit(self.c_in,self.c_in,norm=False)
             self.glu2 = GatedLinearUnit(self.c_in,self.c_in,norm=False)
             self.glulast = GatedLinearUnit(self.c_in,self.c_in,norm=False)
+        else:
+            self.glu1=None
+            self.glu2=None
+            self.glulast=None
 
 
         mil2fc,mil2bag = FCLayer(self.c_hidden,self.classes),BClassifier(self.c_hidden,self.classes)

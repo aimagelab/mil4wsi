@@ -1,4 +1,4 @@
-from models.utils.modules import BClassifierABMIL,init
+from .utils import BClassifierABMIL,init
 import torch
 from models.utils.basemodel import Baseline
 from utils.utils2 import dropout_node
