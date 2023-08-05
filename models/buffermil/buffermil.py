@@ -1,5 +1,5 @@
-from utils import FCLayer,BClassifierBuffer,MILNetBuffer,init
-from utils2 import dropout_node
+from .utils import FCLayer,BClassifierBuffer,MILNetBuffer,init
+from .utils2 import dropout_node
 import torch
 from models.utils.basemodel import Baseline
 
