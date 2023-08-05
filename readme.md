@@ -32,13 +32,13 @@ python main.py --datasetpath PATH --model DASMIL
 
 |    DINO Camelyon16    |       DINO LUNG       |
 | :-------------------: | :-------------------: |
-| [x5](https://ailb-web.ing.unimore.it/publicfiles/drive/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x5/checkpoint.pth.gz)  | [x5](https://ailb-web.ing.unimore.it/publicfiles/drive/miccai_dasmil_checkpoints/dasmil/lung/dino/x5/checkpoint.pth.gz) |
-| [x10](https://ailb-web.ing.unimore.it/publicfiles/drive/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x10/checkpoint.pth.gz) | [x10](https://ailb-web.ing.unimore.it/publicfiles/drive/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x10/checkpoint.pth.gz) |
-| [x20](https://ailb-web.ing.unimore.it/publicfiles/drive/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x20/checkpoint.pth.gz) | [x20](https://ailb-web.ing.unimore.it/publicfiles/drive/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x20/checkpoint.pth.gz) |
+| [x5](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x5/checkpoint.pth.gz)  | [x5](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/lung/dino/x5/checkpoint.pth.gz) |
+| [x10](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x10/checkpoint.pth.gz) | [x10](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x10/checkpoint.pth.gz) |
+| [x20](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x20/checkpoint.pth.gz) | [x20](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x20/checkpoint.pth.gz) |
 
 |    DASMIL Camelyon16    |       DASMIL LUNG       |
 | :---------------------: | :---------------------: |
-| [model](https://ailb-web.ing.unimore.it/publicfiles/drive/miccai_dasmil_checkpoints/dasmil/camelyon16/mil/model_cam.pt.gz) | [model](https://ailb-web.ing.unimore.it/publicfiles/drive/miccai_dasmil_checkpoints/dasmil/lung/mil/model_lung.pt.gz) |
+| [model](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/mil/model_cam.pt.gz) | [model](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/lung/mil/model_lung.pt.gz) |
 
 ## Pytorch Geometric - Extracted Features
 
