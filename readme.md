@@ -54,7 +54,7 @@ python main.py --datasetpath PATH --model DASMIL
 
 |     Camelyon16    |        LUNG       |
 | :---------------------: | :---------------------: |
-| [Dataset]() Not Available | [Dataset]() Not Available |
+| [Dataset](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/cam_feats.zip) ~4.25GB | [Dataset](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/lung_feats.zip) ~17.5GB |
 
 ## Eval
 
@@ -68,7 +68,7 @@ python eval.py
 
 - [x] Refactor
 - [x] Upload checkpoints
-- [ ] Upload feats
+- [x] Upload feats
 
 # Contributing
 
