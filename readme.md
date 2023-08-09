@@ -40,7 +40,7 @@ This work uses [CLAM](https://github.com/mahmoodlab/CLAM) to filter out backgrou
 ## Training
 
 ```bash
-python main.py --datasetpath DATASETPATH --checkpoint CHECKPOINTPATH --dataset [cam or lung]
+python main.py --datasetpath DATASETPATH --dataset [cam or lung]
 ```
 
 ## Reproducibility
