@@ -1,3 +1,7 @@
+<p align="center">
+<img src="https://github.com/aimagelab/mil4wsi/blob/logo.png" width=70% height=70%>
+</p>
+
 # Introduction
 Welcome to the mil4wsi Framework – your gateway to state-of-the-art Multiple Instance Learning (MIL) model implementations for gigapixel whole slide images. This comprehensive open-source repository empowers researchers, developers, and enthusiasts to explore and leverage cutting-edge MIL techniques.
 
