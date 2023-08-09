@@ -1,19 +1,23 @@
-<!--
- Copyright 2023 Bontempo Gianpaolo
+# Extract DINO feats 
 
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+- download [DINO](https://github.com/facebookresearch/dino) repository
+- store repository path into Environment variable ```export DINO_REPO=PATH```
+- collect a csv with three columns: slide_name, label (0/1), phase (train/test)
+  example:
 
 
+| image  | label | phase |
+| ------------- | ------------- | ------------|
+| name_1  | 0  | train |
+| name_2  | 1  | test  |
 
-``````
+
+Launch the feature extraction through submitit!
+```
+python run_with_submitit.py --extractedpatchespath HIERARCHICAL_PATH --savepath DESTINATION_PATH --pretrained_weights1 CHECKPOINTDINO20x --pretrained_weights2 CHECKPOINTDINO10x --pretrained_weights3 CHECKPOINTDINO5x --propertiescsv CSV_PATH
+```
+
+EXAMPLE:
+```
+python run_with_submitit.py --extractedpatchespath /mnt/beegfs/work/H2020DeciderFicarra/decider/decider_multi --savepath /mnt/beegfs/work/H2020DeciderFicarra/decider/feats/hr --pretrained_weights1 /mnt/beegfs/work/H2020DeciderFicarra/dinodecider20/checkpoint.pth --pretrained_weights2 /mnt/beegfs/work/H2020DeciderFicarra/dinodecider10/checkpoint.pth --pretrained_weights3 /mnt/beegfs/work/H2020DeciderFicarra/dinodecider5/checkpoint.pth --propertiescsv hr.csv
+```
