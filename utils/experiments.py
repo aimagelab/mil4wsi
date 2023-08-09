@@ -14,9 +14,6 @@ def launch_DASMIL_cam(args):
     args1.c_hidden=256
     args1.layer_name="GAT"
     args1.residual=False
-    args1.datasetpath="/mnt/beegfs/work/H2020DeciderFicarra/gbontempo/feats/1_XDASMIL/camGraph_23"
-    args1.checkpoint="/mnt/beegfs/work/H2020DeciderFicarra/gbontempo/dasmil/camelyon16/mil/model_cam.pt"
-    args1.project="wandbproject"
     return [args1]
 
 
@@ -34,7 +31,4 @@ def launch_DASMIL_lung(args):
     args1.c_hidden=384
     args1.layer_name="GAT"
     args1.residual=True
-    args1.datasetpath="/mnt/beegfs/work/H2020DeciderFicarra/gbontempo/feats/1_XDASMIL/lungGraph_13"
-    args1.checkpoint="/homes/gbontempo/DASMIL/Lung.pt"
-    args1.project="wandbproject"
     return [args1]

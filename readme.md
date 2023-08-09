@@ -29,16 +29,17 @@ This work uses [CLAM](https://github.com/mahmoodlab/CLAM) to filter out backgrou
 - [TRANSMIL](https://github.com/aimagelab/mil4wsi/tree/main/models/transmil)
 - [HIPT](https://github.com/aimagelab/mil4wsi/tree/main/models/hipt)
 
-
-# Training
+# DASMIL
+![dasmil](https://github.com/aimagelab/mil4wsi/blob/main/models/dasmil/model.pdf)
+## Training
 
 ```bash
-python main.py --datasetpath PATH --model DASMIL
+python main.py --datasetpath DATASETPATH --checkpoint CHECKPOINTPATH --dataset [cam or lung]
 ```
 
-# Reproducibility
+## Reproducibility
 
-## Pretrained models
+### Pretrained models
 
 |    DINO Camelyon16    |       DINO LUNG       |
 | :-------------------: | :-------------------: |
@@ -50,7 +51,7 @@ python main.py --datasetpath PATH --model DASMIL
 | :---------------------: | :---------------------: |
 | [model](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/mil/model_cam.pt.gz) ~9MB | [model](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/lung/mil/model_lung.pt.gz) ~15MB|
 
-## Pytorch Geometric - Extracted Features
+### Pytorch Geometric - Extracted Features
 
 |     Camelyon16    |        LUNG       |
 | :---------------------: | :---------------------: |
@@ -61,14 +62,8 @@ python main.py --datasetpath PATH --model DASMIL
 setup checkpoints and datasets paths in utils/experiment.py
 then
 ```bash
-python eval.py 
+python eval.py --datasetpath DATASETPATH --checkpoint CHECKPOINTPATH --dataset [cam or lung]
 ```
-
-# TODOs
-
-- [x] Refactor
-- [x] Upload checkpoints
-- [x] Upload feats
 
 # Contributing
 

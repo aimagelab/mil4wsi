@@ -23,7 +23,10 @@ def main():
             slurm_array_parallelism=args.job_parallel)
     executor.update_parameters(name=args.job_name)
     experiments=[]
-    experiments=experiments+launch_DASMIL_cam(args)+launch_DASMIL_lung(args)
+    if args.dataset== "cam":
+        experiments=experiments+launch_DASMIL_cam(args)
+    else:
+        experiments=experiments+launch_DASMIL_lung(args)
     executor.map_array(eval,experiments)
     #eval(experiments[1])
 
