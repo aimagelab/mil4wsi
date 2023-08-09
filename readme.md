@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/aimagelab/mil4wsi/blob/logo.png" width=70% height=70%>
+<img src="https://github.com/aimagelab/mil4wsi/blob/main/logo.png" width=70% height=70%>
 </p>
 
 # Introduction
