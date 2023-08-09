@@ -37,6 +37,7 @@ This work uses [CLAM](https://github.com/mahmoodlab/CLAM) to filter out backgrou
 <p align="center">
 <img src="https://github.com/aimagelab/mil4wsi/blob/main/models/dasmil/model.png" width=70% height=70%>
 </p>
+
 ## Training
 
 ```bash
