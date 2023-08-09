@@ -56,6 +56,8 @@ python main.py --datasetpath DATASETPATH --checkpoint CHECKPOINTPATH --dataset [
 |    DASMIL Camelyon16    |       DASMIL LUNG       |
 | :---------------------: | :---------------------: |
 | [model](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/mil/model_cam.pt.gz) ~9MB | [model](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/lung/mil/model_lung.pt.gz) ~15MB|
+| ACC: 0.945 | ACC: 0.92 |
+| AUC: 0.967 | AUC: 0.966 |
 
 ### Pytorch Geometric - Extracted Features
 
