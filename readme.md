@@ -37,6 +37,14 @@ This work uses [CLAM](https://github.com/mahmoodlab/CLAM) to filter out backgrou
 <p align="center">
 <img src="https://github.com/aimagelab/mil4wsi/blob/main/models/dasmil/model.png" width=70% height=70%>
 </p>
+`
+@inproceedings{Bontempo2023,
+  title={{DAS-MIL: Distilling Across Scales for MIL Classification of Histological WSIs}},
+  author={Bontempo, Gianpaolo and Porrello, Angelo and Bolelli, Federico and Calderara, Simone and Ficarra, Elisa},
+  booktitle={{Medical Image Computing and Computer Assisted Intervention – MICCAI 2023}},
+  year={2023}
+}
+`
 
 ## Training
 
@@ -56,7 +64,7 @@ python main.py --datasetpath DATASETPATH --dataset [cam or lung]
 
 |    DASMIL Camelyon16    |       DASMIL LUNG       |
 | :---------------------: | :---------------------: |
-| [model](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/mil/model_cam.pt.gz) ~9MB | [model](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/lung/mil/model_lung.pt.gz) ~15MB|
+| [model](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/model_cam.pt) ~9MB | [model](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/Lung.pt) ~15MB|
 | ACC: 0.945 | ACC: 0.92 |
 | AUC: 0.967 | AUC: 0.966 |
 
