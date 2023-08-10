@@ -5,7 +5,7 @@ import argparse
 
 
 sys.path.append(os.environ["DINO_REPO"])
-sys.path.append('DASMIL-REPOSITORY PATH')
+sys.path.append(os.environ["MIL4WSI_PATH"])
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(
