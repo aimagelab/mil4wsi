@@ -1,7 +1,7 @@
 # Extract DINO feats 
 
 - download [DINO](https://github.com/facebookresearch/dino) repository
-- store repository path into Environment variable ```export DINO_REPO=PATH```
+- store repository path into Environment variable ```export DINO_REPO=PATH```  ```export MIL4WSI_PATH=PATH```
 - collect a csv with three columns: slide_name, label (0/1), phase (train/test)
   example:
 
