@@ -7,6 +7,11 @@ import argparse
 sys.path.append(os.environ["DINO_REPO"])
 sys.path.append(os.environ["MIL4WSI_PATH"])
 
+
+from .embedding_extraction_tree import processSlide
+import utils
+import pandas as pd
+
 # Parse command line arguments
 parser = argparse.ArgumentParser(
     description='Compute features from Dino embedder')
