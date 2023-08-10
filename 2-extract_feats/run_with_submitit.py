@@ -2,6 +2,7 @@
 import os
 import sys
 import argparse
+import submitit
 
 
 sys.path.append(os.environ["DINO_REPO"])
