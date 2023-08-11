@@ -1,24 +1,24 @@
-import tqdm
-import vision_transformer as vits
-import numpy as np
-import pandas as pd
 import sys
-import argparse
 import os
-import glob
-import copy
-import torchvision.transforms.functional as VF
-import torch.nn as nn
-import torch
-from joblib import dump
-from torchvision import models as torchvision_models
-from collections import OrderedDict
-from PIL import Image
-import utils as utils
-
-
 sys.path.append(os.environ["DINO_REPO"])
 
+import utils as utils
+import vision_transformer as vits
+from PIL import Image
+from collections import OrderedDict
+from torchvision import models as torchvision_models
+from joblib import dump
+import torch
+import torch.nn as nn
+import torchvision.transforms.functional as VF
+import copy
+import glob
+
+import argparse
+import pandas as pd
+import numpy as np
+
+import tqdm
 
 def getinfo(patch):
     """Extract x and y coordinates from patch path

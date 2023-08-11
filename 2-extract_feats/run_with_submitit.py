@@ -1,12 +1,12 @@
-
+from embedding_extract_tree import processSlide
 import os
 import sys
 import argparse
-
-
+import pandas as pd
+import submitit
 sys.path.append(os.environ["DINO_REPO"])
 sys.path.append('DASMIL-REPOSITORY PATH')
-
+import utils as utils
 # Parse command line arguments
 parser = argparse.ArgumentParser(
     description='Compute features from Dino embedder')
@@ -68,4 +68,4 @@ df = pd.read_csv(args.propertiescsv)
 args = [args for i in range(0, len(df), args.step)]
 # Submit jobs using map_array method
 jobs = executor.map_array(processSlide, range(0, len(df), args[0].step), args)
-# processSlide(0,args[0])
+#processSlide(0,args[0])
