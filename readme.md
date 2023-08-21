@@ -35,16 +35,17 @@ This work uses [CLAM](https://github.com/mahmoodlab/CLAM) to filter out backgrou
 
 # DASMIL
 <p align="center">
-<img src="https://github.com/aimagelab/mil4wsi/blob/main/models/dasmil/model.png" width=70% height=70%>
+<img src="https://github.com/aimagelab/mil4wsi/blob/main/models/dasmil/model.png" width=100% height=100%>
 </p>
-`
+
+```
 @inproceedings{Bontempo2023,
   title={{DAS-MIL: Distilling Across Scales for MIL Classification of Histological WSIs}},
   author={Bontempo, Gianpaolo and Porrello, Angelo and Bolelli, Federico and Calderara, Simone and Ficarra, Elisa},
   booktitle={{Medical Image Computing and Computer Assisted Intervention – MICCAI 2023}},
   year={2023}
 }
-`
+```
 
 ## Training
 
