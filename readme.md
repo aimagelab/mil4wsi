@@ -24,14 +24,14 @@ This work uses [CLAM](https://github.com/mahmoodlab/CLAM) to filter out backgrou
 - [Geometric Dataset Conversion](3-prepare-geomDataset/readme.md): It  allows to work with graphs architectures and PyTorch geometric
 
 # Available Models
-- [MaxPooling](https://github.com/aimagelab/mil4wsi/tree/main/models/maxpooling)
-- [MeanPooling](https://github.com/aimagelab/mil4wsi/tree/main/models/meanpooling)
-- [ABMIL](https://github.com/aimagelab/mil4wsi/tree/main/models/abmil)
-- [DSMIL](https://github.com/aimagelab/mil4wsi/tree/main/models/dsmil)
-- [DASMIL](https://github.com/aimagelab/mil4wsi/tree/main/models/dasmil)
-- [BUFFERMIL](https://github.com/aimagelab/mil4wsi/tree/main/models/buffermil)
-- [TRANSMIL](https://github.com/aimagelab/mil4wsi/tree/main/models/transmil)
-- [HIPT](https://github.com/aimagelab/mil4wsi/tree/main/models/hipt)
+- MaxPooling
+- MeanPooling
+- ABMIL
+- DSMIL
+- DASMIL
+- BUFFERMIL
+- TRANSMIL
+- HIPT
 
 # DASMIL
 <p align="center">
