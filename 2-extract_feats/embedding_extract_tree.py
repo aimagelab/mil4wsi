@@ -413,8 +413,6 @@ def processSlide(start, args):
         if os.path.isfile(os.path.join(feats_path, test, real_name+"_"+str(label), "embeddings.joblib")):
             print("skip")
             continue
-        elif test != "test":
-            continue
         else:
             compute_tree_feats_Slide(
                 real_name, label, test, args, models, feats_path, 4096/(1+down))
