@@ -78,7 +78,7 @@ def getembedding(models, img, level):
         embedding (np.ndarray): The embedding vector for the image patch.
     """
     level = 3-level
-    # img = Image.open(path)
+    img = Image.open(img)
     img = VF.to_tensor(img).float().cuda()
     img = img.view(1, 3, 256, 256)
     embedding = models[level](img).detach().cpu().numpy()
