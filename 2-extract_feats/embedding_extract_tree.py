@@ -1,23 +1,24 @@
-import tqdm
-import vision_transformer as vits
-import numpy as np
-import pandas as pd
 import sys
 import argparse
 import os
+sys.path.append(os.environ["DINO_REPO"])
+
+import pandas as pd
+import numpy as np
+from PIL import Image
+from collections import OrderedDict
+import torch
+import torch.nn as nn
+import torchvision.transforms.functional as VF
+import tqdm
+import vision_transformer as vits
 import glob
 import copy
-import torchvision.transforms.functional as VF
-import torch.nn as nn
-import torch
 from joblib import dump
 from torchvision import models as torchvision_models
-from collections import OrderedDict
-from PIL import Image
 import utils as utils
 
 
-sys.path.append(os.environ["DINO_REPO"])
 
 
 def getinfo(patch):
@@ -77,7 +78,7 @@ def getembedding(models, img, level):
         embedding (np.ndarray): The embedding vector for the image patch.
     """
     level = 3-level
-    # img = Image.open(path)
+    img = Image.open(img)
     img = VF.to_tensor(img).float().cuda()
     img = img.view(1, 3, 256, 256)
     embedding = models[level](img).detach().cpu().numpy()
@@ -411,8 +412,6 @@ def processSlide(start, args):
 
         if os.path.isfile(os.path.join(feats_path, test, real_name+"_"+str(label), "embeddings.joblib")):
             print("skip")
-            continue
-        elif test != "test":
             continue
         else:
             compute_tree_feats_Slide(

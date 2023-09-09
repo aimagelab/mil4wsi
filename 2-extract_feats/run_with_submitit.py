@@ -10,6 +10,7 @@ sys.path.append(os.environ["MIL4WSI_PATH"])
 
 
 from  embedding_extraction_tree import processSlide
+
 import utils
 import pandas as pd
 

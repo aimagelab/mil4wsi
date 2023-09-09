@@ -1,6 +1,9 @@
-# DAS-MIL
+<p align="center">
+<img src="https://github.com/aimagelab/mil4wsi/blob/main/logo.png" width=70% height=70%>
+</p>
 
-In this work, intending to leverage the full potential of pyramidal structured WSI, we propose a graph-based multi-scale MIL approach, DAS-MIL, that exploits message passing to let information flows across multiple scales. Employing a knowledge distillation schema, the alignment between the latent space representation at different resolutions is encouraged while preserving the diversity in the informative content.
+# Introduction
+Welcome to the mil4wsi Framework – your gateway to state-of-the-art Multiple Instance Learning (MIL) model implementations for gigapixel whole slide images. This comprehensive open-source repository empowers researchers, developers, and enthusiasts to explore and leverage cutting-edge MIL techniques.
 
 # Installation
 
@@ -14,46 +17,72 @@ conda env update --file environment.yml
 
 This work uses [CLAM](https://github.com/mahmoodlab/CLAM) to filter out background patches. After the .h5 coordinate generation, use:
 
-- [H5-to-jpg](0-extract_patches/readme.md) to convert h5 coordinates into jpg images
-- [Sort images](1-sort_images/readme.md) to reorganize patches into hierarchical folders
+- [H5-to-jpg](0-extract_patches/readme.md): It converts .h5 coordinates into jpg images
+- [Sort images](1-sort_images/readme.md): It reorganizes patches into hierarchical folders
 - [Dino Training](https://github.com/facebookresearch/dino): Given the patches, train dino with the `vit_small` option
-- [Feature Extraction](2-extract_feats/readme.md): extract patch features and adjacency matrices
-- [Geometric Dataset Conversion](3-prepare-geomDataset/readme.md): to easily work with graphs architectures
+- [Feature Extraction](2-extract_feats/readme.md): It extracts patch features and adjacency matrices
+- [Geometric Dataset Conversion](3-prepare-geomDataset/readme.md): It  allows to work with graphs architectures and PyTorch geometric
 
-# Training
+# Available Models
+- MaxPooling
+- MeanPooling
+- ABMIL
+- DSMIL
+- DASMIL
+- BUFFERMIL
+- TRANSMIL
+- HIPT
 
-```bash
-python main.py --datasetpath PATH --model DASMIL
+# DASMIL
+<p align="center">
+<img src="https://github.com/aimagelab/mil4wsi/blob/main/models/dasmil/model.png" width=100% height=100%>
+</p>
+
+```
+@inproceedings{Bontempo2023,
+  title={{DAS-MIL: Distilling Across Scales for MIL Classification of Histological WSIs}},
+  author={Bontempo, Gianpaolo and Porrello, Angelo and Bolelli, Federico and Calderara, Simone and Ficarra, Elisa},
+  booktitle={{Medical Image Computing and Computer Assisted Intervention – MICCAI 2023}},
+  year={2023}
+}
 ```
 
-# Reproducibility
+## Training
 
-## Pretrained models
+```bash
+python main.py --datasetpath DATASETPATH --dataset [cam or lung]
+```
+
+## Reproducibility
+
+### Pretrained models
 
 |    DINO Camelyon16    |       DINO LUNG       |
 | :-------------------: | :-------------------: |
-| [x5]() Not Available  | [x5]() Not Available  |
-| [x10]() Not Available | [x10]() Not Available |
-| [x20]() Not Available | [x20]() Not Available |
+| [x5](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x5/checkpoint.pth.gz) ~0.65GB | [x5](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/lung/dino/x5/checkpoint.pth.gz) ~0.65GB |
+| [x10](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x10/checkpoint.pth.gz) ~0.65GB | [x10](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x10/checkpoint.pth.gz) ~0.65GB |
+| [x20](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x20/checkpoint.pth.gz) ~0.65GB | [x20](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x20/checkpoint.pth.gz) ~0.65GB |
 
 |    DASMIL Camelyon16    |       DASMIL LUNG       |
 | :---------------------: | :---------------------: |
-| [model]() Not Available | [model]() Not Available |
+| [model](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/model_cam.pt) ~9MB | [model](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/Lung.pt) ~15MB|
+| ACC: 0.945 | ACC: 0.92 |
+| AUC: 0.967 | AUC: 0.966 |
 
-## Pytorch Geometric - Extracted Features
+### Pytorch Geometric - Extracted Features
 
-|        Camelyon16         |           LUNG            |
-| :-----------------------: | :-----------------------: |
-|   [x5]() Not Available    |   [x5]() Not Available    |
-|   [x10]() Not Available   |   [x10]() Not Available   |
-|   [x20]() Not Available   |   [x20]() Not Available   |
-| [x5-x20]() Not Available  | [x5-x20]() Not Available  |
-| [x10-x20]() Not Available | [x10-x20]() Not Available |
+|     Camelyon16    |        LUNG       |
+| :---------------------: | :---------------------: |
+| [Dataset](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/cam_feats.zip) ~4.25GB | [Dataset](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/lung_feats.zip) ~17.5GB |
 
-# TODOs
+## Eval
 
-- [ ] Refactor
-- [ ] Upload checkpoints
-- [ ] Upload feats
+setup checkpoints and datasets paths in utils/experiment.py
+then
+```bash
+python eval.py --datasetpath DATASETPATH --checkpoint CHECKPOINTPATH --dataset [cam or lung]
+```
 
-# References
+# Contributing
+
+We encourage and welcome contributions from the community to help improve the MIL Models Framework and make it even more valuable for the entire machine-learning community. 
