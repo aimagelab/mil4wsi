@@ -9,7 +9,8 @@ sys.path.append(os.environ["DINO_REPO"])
 sys.path.append(os.environ["MIL4WSI_PATH"])
 
 
-from .embedding_extraction_tree import processSlide
+from  embedding_extraction_tree import processSlide
+
 import utils
 import pandas as pd
 
@@ -21,25 +22,25 @@ parser.add_argument('--num_workers', default=4, type=int,
 parser.add_argument('--norm_layer', default='instance',
                     type=str, help='Normalization layer [instance]')
 parser.add_argument("--extractedpatchespath",
-                    default="HIERARCHICALSOURCEPATH", type=str)
-parser.add_argument("--savepath", type=str, default="DESTINATIONPATH")
+                    default="/mnt/beegfs/work/H2020DeciderFicarra/gbontempo/patches/cam_multi", type=str)
+parser.add_argument("--savepath", type=str, default="/mnt/beegfs/work/H2020DeciderFicarra/gbontempo/feats/1_XDASMIL/camdinoLevels23All")
 parser.add_argument("--levels", type=int, nargs="+",
-                    default=[3], help="resolution level")
+                    default=[2,3], help="resolution level")
 parser.add_argument("--step", type=int, default=1)
 parser.add_argument("--job_number", type=int, default=-1)
 parser.add_argument('--propertiescsv',
-                    default='camelyon.csv', type=str, help='csv')
+                    default='/homes/gbontempo/DASMIL/2-extract_feats/cam_multi.csv', type=str, help='csv')
 
 parser.add_argument('--model', default='dino', type=str, help='Architecture')
 parser.add_argument('--arch', default='vit_small',
                     type=str, help='Architecture')
 parser.add_argument('--patch_size', default=16, type=int,
                     help='Patch resolution of the model.')
-parser.add_argument('--pretrained_weights1', default='CHECKPOINTDINO20x',
+parser.add_argument('--pretrained_weights1', default='/mnt/beegfs/work/H2020DeciderFicarra/gbontempo/weightsAll/checkpoint.pth',
                     type=str, help="embedder trained at level 1 (scale x20).")
-parser.add_argument('--pretrained_weights2', default='CHECKPOINTDINO10x',
+parser.add_argument('--pretrained_weights2', default='/mnt/beegfs/work/H2020DeciderFicarra/gbontempo/weightsAll/checkpoint.pth',
                     type=str, help="embedder trained at level 2 (scale x10)")
-parser.add_argument('--pretrained_weights3', default='CHECKPOINTDINO5x',
+parser.add_argument('--pretrained_weights3', default='/mnt/beegfs/work/H2020DeciderFicarra/gbontempo/weightsAll/checkpoint.pth',
                     type=str, help="embedder trained at level 3 (scale x5).")
 parser.add_argument('--n_last_blocks', default=4, type=int,
                     help="""Concatenate [CLS] tokens for the `n` last blocks. We use `n=4` when evaluating ViT-Small and `n=1` with ViT-Base.""")
@@ -61,7 +62,7 @@ executor.update_parameters(
     nodes=1,
     timeout_min=500,  # max is 60 * 72
     # Below are cluster dependent parameters
-    slurm_exclude="aimagelab-srv-10",
+    #slurm_exclude="aimagelab-srv-10",
     slurm_partition="prod",
     slurm_signal_delay_s=180,
     slurm_array_parallelism=20)
