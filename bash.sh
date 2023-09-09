@@ -1,0 +1,1 @@
+srun -Q --immediate=10 --partition=dev --gres=gpu:1 --time 240:00 --pty bash
