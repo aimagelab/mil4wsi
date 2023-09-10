@@ -77,8 +77,9 @@ def getembedding(models, img, level):
     Returns:
         embedding (np.ndarray): The embedding vector for the image patch.
     """
+    #print(img)
     level = 3-level
-    img = Image.open(img)
+    #img = Image.open(img)
     img = VF.to_tensor(img).float().cuda()
     img = img.view(1, 3, 256, 256)
     embedding = models[level](img).detach().cpu().numpy()
@@ -409,7 +410,7 @@ def processSlide(start, args):
     for slideNumber in range(start, start+args.step):
         real_name, id, label, test, down = properties(
             slideNumber, args.propertiescsv)
-
+        print(real_name, label, test, down,feats_path)
         if os.path.isfile(os.path.join(feats_path, test, real_name+"_"+str(label), "embeddings.joblib")):
             print("skip")
             continue

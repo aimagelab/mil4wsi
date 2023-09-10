@@ -20,7 +20,7 @@ This work uses [CLAM](https://github.com/mahmoodlab/CLAM) to filter out backgrou
 - [H5-to-jpg](0-extract_patches/readme.md): It converts .h5 coordinates into jpg images
 - [Sort images](1-sort_images/readme.md): It reorganizes patches into hierarchical folders
 - [Dino Training](https://github.com/facebookresearch/dino): Given the patches, train dino with the `vit_small` option
-- [Feature Extraction](2-extract_feats/readme.md): It extracts patch features and adjacency matrices
+- [Feature Extraction](t2/readme.md): It extracts patch features and adjacency matrices
 - [Geometric Dataset Conversion](3-prepare-geomDataset/readme.md): It  allows to work with graphs architectures and PyTorch geometric
 
 # Available Models

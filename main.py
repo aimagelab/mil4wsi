@@ -1,9 +1,9 @@
 import submitit
 import sys
 import os
-from utils.process import processDataset
-from utils.experiments import *
-from utils.parser import get_args
+from utilsmil4wsi.process import processDataset
+from utilsmil4wsi.experiments import *
+from utilsmil4wsi.parser import get_args
 
 # Set environment variable to increase wandb service wait time
 os.environ["WANDB__SERVICE_WAIT"] = "300"
@@ -35,6 +35,7 @@ def main():
     else:
         experiments=experiments+launch_DASMIL_lung(args)
     executor.map_array(processDataset,experiments)
+    #processDataset(experiments[0])
 
 if __name__ == '__main__':
     main()

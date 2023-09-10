@@ -3,7 +3,7 @@ import glob
 import os
 from torch_geometric.data import Dataset
 import torch_geometric.loader as geom_loader
-from utils.seed import seed_worker
+from utilsmil4wsi.seed import seed_worker
 
 
 def get_loaders(args):

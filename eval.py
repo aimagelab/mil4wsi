@@ -1,10 +1,10 @@
 import submitit,sys,os
-from utils.process import eval
+from utilsmil4wsi.process import eval
 os.environ["WANDB__SERVICE_WAIT"] = "300"
 
-from utils.parser import get_args
-from utils.experiments import *
-from utils.process import processDataset
+from utilsmil4wsi.parser import get_args
+from utilsmil4wsi.experiments import *
+from utilsmil4wsi.process import processDataset
 # Ensure that all operations are deterministic on GPU (if used) for reproducibility
 
 def main():

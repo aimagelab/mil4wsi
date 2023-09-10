@@ -1,7 +1,7 @@
 from models.utils.modules import FCLayer,BClassifier,MILNet,init
 import torch
 from models.utils.basemodel import Baseline
-from utils.utils2 import dropout_node
+from utilsmil4wsi.utils2 import dropout_node
 
 
 class DSMIL(Baseline):

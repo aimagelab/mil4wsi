@@ -53,6 +53,7 @@ def get_args():
     group6.add_argument('--beta', default=1, type=float, help='beta')
     group6.add_argument('--temperature', default=1.5, type=float, help='temperature')
     group6.add_argument('--add_bias', default=True,action="store_true")
+    group6.add_argument('--max', default=True,action="store_true")
     group6.add_argument('--checkpoint', default=None,type=str, help='checkpoint')
 
     parser.add_argument('--tag', default="split", type=str, help='train strategy')

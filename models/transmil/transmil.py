@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import numpy as np
 from nystrom_attention import NystromAttention
 from models.utils.basemodel import Baseline
-from utils.utils2 import dropout_node
+from utilsmil4wsi.utils2 import dropout_node
 
 class TransLayer(nn.Module):
 

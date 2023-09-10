@@ -4,12 +4,11 @@ import sys
 import argparse
 import submitit
 
-
 sys.path.append(os.environ["DINO_REPO"])
 sys.path.append(os.environ["MIL4WSI_PATH"])
 
 
-from  embedding_extraction_tree import processSlide
+from t2.extract_tree.embedding_extract_tree import processSlide
 
 import utils
 import pandas as pd
@@ -26,10 +25,10 @@ parser.add_argument("--extractedpatchespath",
 parser.add_argument("--savepath", type=str, default="/mnt/beegfs/work/H2020DeciderFicarra/gbontempo/feats/1_XDASMIL/camdinoLevels23All")
 parser.add_argument("--levels", type=int, nargs="+",
                     default=[2,3], help="resolution level")
-parser.add_argument("--step", type=int, default=1)
+parser.add_argument("--step", type=int, default=20)
 parser.add_argument("--job_number", type=int, default=-1)
 parser.add_argument('--propertiescsv',
-                    default='/homes/gbontempo/DASMIL/2-extract_feats/cam_multi.csv', type=str, help='csv')
+                    default='/homes/gbontempo/DASMIL/t2/cam_multi.csv', type=str, help='csv')
 
 parser.add_argument('--model', default='dino', type=str, help='Architecture')
 parser.add_argument('--arch', default='vit_small',
@@ -66,7 +65,7 @@ executor.update_parameters(
     slurm_partition="prod",
     slurm_signal_delay_s=180,
     slurm_array_parallelism=20)
-executor.update_parameters(name="dasmil")
+executor.update_parameters(name="processSlide")
 
 # Read properties from CSV
 df = pd.read_csv(args.propertiescsv)
@@ -75,4 +74,4 @@ df = pd.read_csv(args.propertiescsv)
 args = [args for i in range(0, len(df), args.step)]
 # Submit jobs using map_array method
 jobs = executor.map_array(processSlide, range(0, len(df), args[0].step), args)
-# processSlide(0,args[0])
+#processSlide(0,args[0])

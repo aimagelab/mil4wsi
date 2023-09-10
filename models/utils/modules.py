@@ -232,10 +232,11 @@ def init(model, state_dict_weights):
     Returns:
         Initialized model.
     """
-    try:
-        model.load_state_dict(state_dict_weights, strict=False)
-    except:
-        del state_dict_weights['b_classifier.v.1.weight']
-        del state_dict_weights['b_classifier.v.1.bias']
-        model.load_state_dict(state_dict_weights, strict=False)
+    if state_dict_weights is not None:
+        try:
+            model.load_state_dict(state_dict_weights, strict=False)
+        except:
+            del state_dict_weights['b_classifier.v.1.weight']
+            del state_dict_weights['b_classifier.v.1.bias']
+            model.load_state_dict(state_dict_weights, strict=False)
     return model

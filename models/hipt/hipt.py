@@ -13,7 +13,7 @@ import torch.nn.functional as F
 from .utils import *
 import torch
 from models.utils.basemodel import Baseline
-from utils.utils2 import dropout_node
+from utilsmil4wsi.utils2 import dropout_node
 
 
 

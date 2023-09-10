@@ -1,8 +1,8 @@
-from utils.seed import init_seed
-from utils.datasets import get_loaders
-from utils.training import train
+from utilsmil4wsi.seed import init_seed
+from utilsmil4wsi.datasets import get_loaders
+from utilsmil4wsi.training import train
 from models import selectModel
-from utils.test import test
+from utilsmil4wsi.test import test
 import torch
 
 

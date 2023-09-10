@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
-from utils.losses import *
-from utils.utils2 import dropout_node
+from utilsmil4wsi.losses import *
+from utilsmil4wsi.utils2 import dropout_node
 
 
 class Baseline(nn.Module):
@@ -24,6 +24,7 @@ class Baseline(nn.Module):
         self.classes=args.n_classes
         self.c_hidden=args.c_hidden
         self.add_bias=args.add_bias
+        self.max=args.max
         self.state_dict_weights=state_dict_weights
 
 

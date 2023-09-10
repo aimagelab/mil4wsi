@@ -18,8 +18,7 @@ parser = argparse.ArgumentParser(
     description='prepare the dataset for pytorch geometric')
 parser.add_argument('--source', type=str, help='origin folder')
 parser.add_argument('--dest', type=str, help='destination folder')
-parser.add_argument('--levels', type=int, nargs='+',
-                    default=[1], help='destination folder')
+parser.add_argument('--levels', type=int, nargs='+', default=[2,3], help='destination folder')
 {}
 args = parser.parse_args()
 dest = args.dest

@@ -1,6 +1,6 @@
 import torch
 import numpy as np
-from utils.metrics import computeMetrics
+from utilsmil4wsi.metrics import computeMetrics
 
 
 def test(model, testloader):
