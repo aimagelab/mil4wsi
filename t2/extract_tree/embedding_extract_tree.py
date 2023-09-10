@@ -1,7 +1,6 @@
 import sys
 import argparse
 import os
-sys.path.append(os.environ["DINO_REPO"])
 
 import pandas as pd
 import numpy as np
@@ -11,12 +10,12 @@ import torch
 import torch.nn as nn
 import torchvision.transforms.functional as VF
 import tqdm
-import vision_transformer as vits
+import dino.vision_transformer as vits
 import glob
 import copy
 from joblib import dump
 from torchvision import models as torchvision_models
-import utils as utils
+import dino.utils as utils
 
 
 
