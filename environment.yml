@@ -235,4 +235,4 @@ dependencies:
     - timm==0.6.12
     - torchsummary==1.5.1
     - wsiprocess==0.9
-prefix: /homes/gbontempo/.conda/envs/wsissl
+
