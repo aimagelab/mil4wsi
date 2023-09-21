@@ -105,8 +105,7 @@ def train(model: torch.nn.Module,
             else:
                 edge_index2 = None
                 edge_index3 = None
-            if "lung" in args.dataset:
-                x = x[level == 3]
+
             try:
                 results = model(x, edge_index, level, childof,
                                 edge_index2, edge_index3)
