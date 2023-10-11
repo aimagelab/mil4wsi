@@ -1,3 +1,6 @@
 */__pycache__/
 */*/__pycache__/
 */2-extract_feats/loggraph
+*/mil4wsi/0-extract_patches/logs
+*/mil4wsi/1-sort_images/LOGFOLDER
+*/mil4wsi/3-prepare-geomDataset/log_test
