@@ -4,4 +4,7 @@
 0-extract_patches/logs/*
 1-sort_images/LOGFOLDER
 3-prepare-geomDataset/log_test
-
+loggraph
+0-extract_patches/readme.md
+2-extract_feats/readme.md
+3-prepare-geomDataset/readme.md
