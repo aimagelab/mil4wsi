@@ -39,11 +39,24 @@ This work uses [CLAM](https://github.com/mahmoodlab/CLAM) to filter out backgrou
 </p>
 
 ```
-@inproceedings{Bontempo2023,
-  title={{DAS-MIL: Distilling Across Scales for MIL Classification of Histological WSIs}},
-  author={Bontempo, Gianpaolo and Porrello, Angelo and Bolelli, Federico and Calderara, Simone and Ficarra, Elisa},
-  booktitle={{Medical Image Computing and Computer Assisted Intervention – MICCAI 2023}},
-  year={2023}
+@inproceedings{Bontempo2023_MICCAI,
+    author={Bontempo, Gianpaolo and Porrello, Angelo and Bolelli, Federico and Calderara, Simone and Ficarra, Elisa},
+    title={{DAS-MIL: Distilling Across Scales for MIL Classification of Histological WSIs}},
+    booktitle={Medical Image Computing and Computer Assisted Intervention – MICCAI 2023},
+    pages={248--258},
+    year=2023,
+    month={Oct},
+    publisher={Springer},
+    doi={https://doi.org/10.1007/978-3-031-43907-0_24},
+    isbn={978-3-031-43906-3}
+}
+
+
+@article{Bontempo2023_TMI,
+  title={{A Graph-Based Multi-Scale Approach with Knowledge Distillation for WSI Classification}},
+  author={Bontempo, Gianpaolo and Bolelli, Federico and Porrello, Angelo and Calderara, Simone and Ficarra, Elisa},
+  journal={IEEE Transactions on Medical Imaging},
+  year={2023},
 }
 ```
 
