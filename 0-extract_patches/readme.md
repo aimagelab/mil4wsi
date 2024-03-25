@@ -15,3 +15,5 @@ Besides, use the following as the config file in CLAM create_patches_fp.py (pres
 seg_level,sthresh,mthresh,close,use_otsu,a_t,a_h,max_n_holes,vis_level,line_thickness,white_thresh,black_thresh,use_padding,contour_fn,keep_ids,exclude_ids
 -1,8,7,4,TRUE,25,4,8,-1,100,5,50,TRUE,four_pt,none,none
 ```
+
+However, the contour_fn in this file is relatively lenient to patches with too much blank. Change it according to your applications. Reference: https://github.com/mahmoodlab/CLAM/blob/master/docs/README.md
