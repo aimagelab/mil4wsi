@@ -108,24 +108,6 @@ Args:
     down = 0
     return real_name, id, label, test, down
 
-
-def checkentropy(image):
-    """
-    Check the entropy of an image to determine its quality
-
-     Args:
-        image (Image.Image): The image to check.
-
-    Returns:
-        bool: True if the image has high enough entropy, False otherwise.
-    """
-
-    if image.entropy() < 5:
-        return False
-    else:
-        return True
-
-
 def get_children(parent_id, x_base, y_base, basepath, allowedlevels, level, models, kinfos, infosConcat, base_shift):
     """
     Recursively get children patches and their embeddings
@@ -169,7 +151,7 @@ def get_children(parent_id, x_base, y_base, basepath, allowedlevels, level, mode
             continue
         path = path[0]
         image = Image.open(path)
-        if level in allowedlevels and checkentropy(image):
+        if level in allowedlevels:
             x, y = getinfo(path)
             embedding = getembedding(models, image, level)
             if parent_id is not None:
