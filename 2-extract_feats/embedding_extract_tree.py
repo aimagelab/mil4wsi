@@ -1,7 +1,7 @@
 import sys
 import os
-sys.path.append(os.environ["DINO_REPO"])
-
+#sys.path.append("/work/H2020DeciderFicarra/fmiccolis/WP2/dino")
+sys.path.insert(0,"/work/H2020DeciderFicarra/fmiccolis/WP2/dino")
 import utils as utils
 import vision_transformer as vits
 from PIL import Image
@@ -29,6 +29,8 @@ def getinfo(patch):
     Returns:
         tuple: Tuple containing the x and y coordinates extracted from the patch path.
     """
+    # if 'jpg' not in patch:
+    #     patch=patch[:-1]+'.jpg'
     infos = patch.split(os.sep)[-1].split("_")
     y = int(infos[-1].split(".")[0])
     x = int(infos[-3])
@@ -77,7 +79,7 @@ def getembedding(models, img, level):
         embedding (np.ndarray): The embedding vector for the image patch.
     """
     level = 3-level
-    # img = Image.open(path)
+    img = Image.open(img)
     img = VF.to_tensor(img).float().cuda()
     img = img.view(1, 3, 256, 256)
     embedding = models[level](img).detach().cpu().numpy()
@@ -125,7 +127,7 @@ def checkentropy(image):
         return True
 
 
-def get_children(parent_id, x_base, y_base, basepath, allowedlevels, level, models, kinfos, infosConcat, base_shift):
+def get_children(parent_id, x_base, y_base, basepath, allowedlevels, level, models, kinfos, infosConcat, base_shift,processate):
     """
     Recursively get children patches and their embeddings
 
@@ -145,10 +147,12 @@ def get_children(parent_id, x_base, y_base, basepath, allowedlevels, level, mode
         kinfos (List[Dict[str, Any]]): The list of patch information dictionaries.
         infosConcat (List[Any]): The list of concatenated embeddings.
     """
-
+    if processate is None:
+        processate = []
+    
     # If no children return list unchanged
     if level == 4:
-        return kinfos, infosConcat
+        return kinfos, infosConcat, processate
     # Calculate the shift value for the current level
     shift = int(base_shift/2**level)
     # Calculate the updated coordinates based on the shift value
@@ -161,33 +165,43 @@ def get_children(parent_id, x_base, y_base, basepath, allowedlevels, level, mode
     # Iterate over patches in the area enclosed by these coordinates
     for patch in [upperleft, lowleft, upperright, lowright]:
         x, y = patch
+        # qui bisogna sistemare per farlo funzionare anche se non ci sono immagini alla x10. Riparti da qui !!!!
         path = glob.glob(os.path.join(
             basepath, "*_x_"+str(x)+"_y_"+str(y)+".jpg"))
+                
         # If file is not present continue
+        # if len(path) == 0:
+        #     continue
         if len(path) == 0:
-            continue
+            # così guarda prima di uscire se ci sono cartelle, quindi ci sono immagini a risoluzione più alta
+            path=glob.glob(os.path.join(basepath, "*_x_"+str(x)+"_y_"+str(y)+"*"))
+            if len(path) == 0:
+                continue
         path = path[0]
-        image = Image.open(path)
-        if level in allowedlevels and checkentropy(image):
-            x, y = getinfo(path)
-            embedding = getembedding(models, image, level)
-            if parent_id is not None:
-                concatened = np.concatenate(
-                    [parent["embedding"], embedding], axis=-1)
-                infosConcat.extend(concatened)
-            kinfo = encapsulate_patch_info(parent_id=parent_id, x=x, y=y, id=len(
-                kinfos), shift=shift, level=level, embedding=embedding, path=path)
-            kinfos.append(kinfo)
-            kinfos, infosConcat = get_children(kinfo["id"], x, y, path.split(
-                ".")[0], allowedlevels, level+1, models, kinfos, infosConcat, base_shift)
+        x, y = getinfo(path)
+        if level in allowedlevels and 'jpg' in path:
+            if path in processate:
+                continue
+            else:
+                processate.append(path)
+                print(len(processate))
+            image = Image.open(path)
+            if checkentropy(image):
+                embedding = getembedding(models, path, level)
+                if parent_id is not None:
+                    concatened = np.concatenate(
+                        [parent["embedding"], embedding], axis=-1)
+                    infosConcat.extend(concatened)
+                kinfo = encapsulate_patch_info(parent_id=parent_id, x=x, y=y, id=len(
+                    kinfos), shift=shift, level=level, embedding=embedding, path=path)
+                kinfos.append(kinfo)
+                kinfos, infosConcat,processate = get_children(kinfo["id"], x, y, path.split(
+                    ".")[0], allowedlevels, level+1, models, kinfos, infosConcat, base_shift,processate)
         else:
-            kinfos, infosConcat = get_children(parent_id, x, y, path.split(
-                ".")[0], allowedlevels, level+1, models, kinfos, infosConcat, base_shift)
+            kinfos, infosConcat,processate = get_children(parent_id, x, y, path.split(
+                ".")[0], allowedlevels, level+1, models, kinfos, infosConcat, base_shift,processate)
 
-    return kinfos, infosConcat
-
-  #
-
+    return kinfos, infosConcat, processate
 
 def search_neighboors(infos):
     """
@@ -195,7 +209,6 @@ def search_neighboors(infos):
 
     Args:
         infos (List[Dict]): List of dictionaries per patch to search.
-
     Returns:
         df(pd.DataFrame): The updated DataFrame with neighboring patches information.
     """
@@ -217,7 +230,6 @@ def search_neighboors(infos):
                 lista.append(neighboor["id"])
             df.at[df.index[df["id"] == patch["id"]][0], "nearsto"] = lista
     return df
-
 
 def create_matrix(df):
     """
@@ -245,7 +257,7 @@ def create_matrix(df):
     return matrix
 
 
-def compute_tree_feats_Slide(real_name, label, test, args, models, save_path=None, base_shift=2048):
+def compute_tree_feats_Slide(real_name, label, test, args, models, save_path=None, base_shift=2048*2):
     """Compute tree features for a slide
 
     Args:
@@ -257,7 +269,7 @@ def compute_tree_feats_Slide(real_name, label, test, args, models, save_path=Non
         save_path (str, optional): The path to save the computed features. Defaults to None.
         base_shift (int, optional): The base shift value. Defaults to 2048.
     """
-
+    processate = None
     allowedlevels = args.levels
     level = 1
     shift = int(base_shift/2**level)
@@ -266,24 +278,36 @@ def compute_tree_feats_Slide(real_name, label, test, args, models, save_path=Non
         torch.backends.cudnn.enabled = False
         infos = []
         infos_concat = []
-        dest = os.path.join(save_path, test, real_name+"_"+str(label))
-        low_patches = glob.glob(os.path.join(
-            args.extractedpatchespath, real_name, '*.jpg'))
+        if real_name[-1] != '_':
+            real_name = real_name+'_'
+        dest = os.path.join(save_path, test, real_name+str(label))
+        # low_patches = glob.glob(os.path.join(
+        #     args.extractedpatchespath, real_name, '*.jpg'))
+
+        all_patches = glob.glob(os.path.join(
+        args.extractedpatchespath, real_name, '*'))
+        imgs=[patch for patch in all_patches if '.jpg' in patch]
+        torem=[img[:-4] for img in imgs]
+        res=[el for el in all_patches if el not in torem]
+        low_patches=[el for el in all_patches if el not in torem]
+        #low_patches = [path[:-1]+'.jpg' for path in low_patches if '.jpg' not in path]
         for path in tqdm.tqdm(low_patches):
             # Extract info about the patch
             x, y = getinfo(path)
-            if level in allowedlevels:
-                embedding = getembedding(models, path, level)
+                #DONE: cambiare questo if in maniera tale che faccia quel ramo solo se effettivamente c'è l'immagine
+            if level in allowedlevels and 'jpg' in path:
+                embedding = getembedding(models, path, level) 
                 kinfo = encapsulate_patch_info(parent_id=None, path=path, x=x, y=y, id=len(
                     infos), shift=shift, level=level, embedding=embedding)
                 infos.append(kinfo)
-                infos, infos_concat = get_children(kinfo["id"], x, y, path.split(
-                    ".")[0], args.levels, level+1, models, infos, infos_concat, base_shift)
+                infos, infos_concat,processate = get_children(kinfo["id"], x, y, path.split(
+                    ".")[0], args.levels, level+1, models, infos, infos_concat, base_shift,processate)
             else:
-                infos, infos_concat = get_children(None, x, y, path.split(
-                    ".")[0], args.levels, level+1, models, infos, infos_concat, base_shift)
+                infos, infos_concat,processate = get_children(None, x, y, path.split(
+                    ".")[0], args.levels, level+1, models, infos, infos_concat, base_shift,processate)
         # Infos should contain a list of dictionaries per patch
         infos = search_neighboors(infos)
+        print(len(infos))
         matrix = create_matrix(infos)
         os.makedirs(dest, exist_ok=True)
 
@@ -303,6 +327,7 @@ def load_parameters(model, path, name, device):
         device (torch.device): The device to load the parameters on.
 
     Returns:
+    
         model (): The model with loaded parameters.
     """
     state_dict_weights = torch.load(path, map_location=device)
@@ -327,18 +352,18 @@ def main():
     parser.add_argument('--norm_layer', default='instance',
                         type=str, help='Normalization layer [instance]')
     parser.add_argument("--extractedpatchespath",
-                        default="HIERARCHICALSOURCEPATH", type=str)
-    parser.add_argument("--savepath", type=str, default="DESTINATIONPATH")
+                        default="/mnt/beegfs/work/H2020DeciderFicarra/fmiccolis/WP2/step1_output", type=str)
+    parser.add_argument("--savepath", type=str, default="/mnt/beegfs/work/H2020DeciderFicarra/fmiccolis/WP2/step2_output/x20")
     parser.add_argument("--job_number", type=int, default=-1)
     parser.add_argument('--arch', default='vit_small',
                         type=str, help='Architecture')
     parser.add_argument('--patch_size', default=16, type=int,
                         help='Patch resolution of the model.')
-    parser.add_argument('--pretrained_weights1', default='CHECKPOINTDINO20x',
+    parser.add_argument('--pretrained_weights1', default='/mnt/beegfs/work/H2020DeciderFicarra/dinodecider20/checkpoint.pth',
                         type=str, help="embedder trained at level 1 (scale x20).")
-    parser.add_argument('--pretrained_weights2', default='CHECKPOINTDINO10x',
+    parser.add_argument('--pretrained_weights2', default='/mnt/beegfs/work/H2020DeciderFicarra/dinodecider10/checkpoint.pth',
                         type=str, help="embedder trained at level 2 (scale x10)")
-    parser.add_argument('--pretrained_weights3', default='CHECKPOINTDINO5x',
+    parser.add_argument('--pretrained_weights3', default='/mnt/beegfs/work/H2020DeciderFicarra/dinodecider5/checkpoint.pth',
                         type=str, help="embedder trained at level 3 (scale x5).")
     parser.add_argument('--n_last_blocks', default=4, type=int,
                         help="""Concatenate [CLS] tokens for the `n` last blocks. We use `n=4` when evaluating ViT-Small and `n=1` with ViT-Base.""")
@@ -390,6 +415,7 @@ def processSlide(start, args):
     models = []
     weights = [args.pretrained_weights1,
                args.pretrained_weights2, args.pretrained_weights3]
+
     for idx in range(3):
         # Create a deep copy of the model for each level
         net = copy.deepcopy(model)
@@ -412,12 +438,11 @@ def processSlide(start, args):
         if os.path.isfile(os.path.join(feats_path, test, real_name+"_"+str(label), "embeddings.joblib")):
             print("skip")
             continue
-        elif test != "test":
-            continue
+        # elif test != "test":
+        #     continue
         else:
             compute_tree_feats_Slide(
-                real_name, label, test, args, models, feats_path, 4096/(1+down))
-
+                real_name, label, test, args, models, feats_path, 2048*2/(1+down))
 
 def buildnetwork(args):
     """

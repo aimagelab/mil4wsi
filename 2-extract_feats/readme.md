@@ -19,5 +19,12 @@ python run_with_submitit.py --extractedpatchespath HIERARCHICAL_PATH --savepath 
 
 EXAMPLE:
 ```
-python run_with_submitit.py --extractedpatchespath /mnt/beegfs/work/H2020DeciderFicarra/decider/decider_multi --savepath /mnt/beegfs/work/H2020DeciderFicarra/decider/feats/hr --pretrained_weights1 /mnt/beegfs/work/H2020DeciderFicarra/dinodecider20/checkpoint.pth --pretrained_weights2 /mnt/beegfs/work/H2020DeciderFicarra/dinodecider10/checkpoint.pth --pretrained_weights3 /mnt/beegfs/work/H2020DeciderFicarra/dinodecider5/checkpoint.pth --propertiescsv hr.csv
+python run_with_submitit.py --extractedpatchespath /work/H2020DeciderFicarra/WP2/HR/step1_output/ --savepath /work/H2020DeciderFicarra/WP2/HR/step2_output/x5-x20 --pretrained_weights1 /work/H2020DeciderFicarra/dinodecider20/checkpoint.pth --pretrained_weights2 /work/H2020DeciderFicarra/dinodecider10/checkpoint.pth --pretrained_weights3 /work/H2020DeciderFicarra/dinodecider5/checkpoint.pth --propertiescsv /work/H2020DeciderFicarra/fmiccolis/WP2/HR/PDS/PDS_embeddings_extraction.csv --levels 1 3
+
+
+python run_with_submitit.py --extractedpatchespath /work/H2020DeciderFicarra/WP2/HR/step1_output/ --savepath /work/H2020DeciderFicarra/WP2/HR/step2_output/x5 --pretrained_weights1 /work/H2020DeciderFicarra/dinodecider20/checkpoint.pth --pretrained_weights2 /work/H2020DeciderFicarra/dinodecider10/checkpoint.pth --pretrained_weights3 /work/H2020DeciderFicarra/dinodecider5/checkpoint.pth --propertiescsv /work/H2020DeciderFicarra/WP2/HR/HR/PDS/PDS_embeddings_extraction.csv --levels 1
+
+
+
+,2,3 specifica i livelli di risoluzione per cui estrarre (1=x5, 3=x20)
 ```

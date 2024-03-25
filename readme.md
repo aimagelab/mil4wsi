@@ -8,7 +8,7 @@ Welcome to the mil4wsi Framework – your gateway to state-of-the-art Multiple I
 # Installation
 
 ```bash
-conda create -n wsissl python=3.9
+conda create -n wsissl python=3.9 --file environment.yml
 conda activate wsissl
 conda env update --file environment.yml
 ```

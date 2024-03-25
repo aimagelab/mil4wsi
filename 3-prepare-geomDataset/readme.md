@@ -24,3 +24,10 @@ where levels represent the magnitude scale:
 ```
 1=x5, 2=x10, 3=x20
 ```
+#    
+
+python prepare_dataset.py --source /mnt/beegfs/work/H2020DeciderFicarra/fmiccolis/WP2/step2_output/x20/ --dest /mnt/beegfs/work/H2020DeciderFicarra/fmiccolis/WP2/step3_output/x20/ --levels 3
+
+
+python prepare_dataset.py --source /mnt/beegfs/work/H2020DeciderFicarra/fmiccolis/WP2/step2_output/x10/Fold_2 --dest /mnt/beegfs/work/H2020DeciderFicarra/fmiccolis/WP2/step3_output/x10/Fold_2 --levels 2
+python prepare_dataset.py --source /mnt/beegfs/work/H2020DeciderFicarra/fmiccolis/WP2/step2_output/x5/Fold_0 --dest /mnt/beegfs/work/H2020DeciderFicarra/fmiccolis/WP2/step3_output/x5/Fold_0 --levels 1
