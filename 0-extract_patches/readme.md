@@ -8,3 +8,10 @@ Use this script inside the [CLAM](https://github.com/mahmoodlab/CLAM) repository
 
 
 This script is designed to extract patches for a single resolution only. To accommodate multiple scales, you must rerun CLAM and this script for each desired scale. Once you have the patches for all scales, you can hierarchically organize them using the 1_sort_images script, ensuring you provide the correct paths for each scale.
+
+Besides, use the following as the config file in CLAM create_patches_fp.py (presets/*.csv).
+
+```
+seg_level,sthresh,mthresh,close,use_otsu,a_t,a_h,max_n_holes,vis_level,line_thickness,white_thresh,black_thresh,use_padding,contour_fn,keep_ids,exclude_ids
+-1,8,7,4,TRUE,25,4,8,-1,100,5,50,TRUE,four_pt,none,none
+```
