@@ -52,12 +52,16 @@ This work uses [CLAM](https://github.com/mahmoodlab/CLAM) to filter out backgrou
 }
 
 
-@article{Bontempo2023_TMI,
-  title={{A Graph-Based Multi-Scale Approach with Knowledge Distillation for WSI Classification}},
+@ARTICLE{Bontempo2024_TMI,
   author={Bontempo, Gianpaolo and Bolelli, Federico and Porrello, Angelo and Calderara, Simone and Ficarra, Elisa},
-  journal={IEEE Transactions on Medical Imaging},
-  year={2023},
-}
+  journal={IEEE Transactions on Medical Imaging}, 
+  title={A Graph-Based Multi-Scale Approach With Knowledge Distillation for WSI Classification}, 
+  year={2024},
+  volume={43},
+  number={4},
+  pages={1412-1421},
+  keywords={Feature extraction;Proposals;Spatial resolution;Knowledge engineering;Graph neural networks;Transformers;Prediction algorithms;Whole slide images (WSIs);multiple instance learning (MIL);(self) knowledge distillation;weakly supervised learning},
+  doi={10.1109/TMI.2023.3337549}}
 ```
 
 ## Training
