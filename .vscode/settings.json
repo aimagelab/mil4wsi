@@ -1,6 +1,0 @@
-{
-    "files.autoSave": "afterDelay",
-    "terminal.integrated.automationProfile.linux": {
-        "path": "/homes/gbontempo/dasmil-extension/bash.sh"
-    }
-}
