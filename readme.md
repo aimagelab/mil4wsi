@@ -77,8 +77,8 @@ python main.py --datasetpath DATASETPATH --dataset [cam or lung]
 |    DINO Camelyon16    |       DINO LUNG       |
 | :-------------------: | :-------------------: |
 | [x5](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x5/checkpoint.pth.gz) ~0.65GB | [x5](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/lung/dino/x5/checkpoint.pth.gz) ~0.65GB |
-| [x10](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x10/checkpoint.pth.gz) ~0.65GB | [x10](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x10/checkpoint.pth.gz) ~0.65GB |
-| [x20](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x20/checkpoint.pth.gz) ~0.65GB | [x20](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x20/checkpoint.pth.gz) ~0.65GB |
+| [x10](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x10/checkpoint.pth.gz) ~0.65GB | [x10](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/lung/dino/x10/checkpoint.pth.gz) ~0.65GB |
+| [x20](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/camelyon16/dino/x20/checkpoint.pth.gz) ~0.65GB | [x20](https://ailb-web.ing.unimore.it/publicfiles/miccai_dasmil_checkpoints/dasmil/lung/dino/x20/checkpoint.pth.gz) ~0.65GB |
 
 |    DASMIL Camelyon16    |       DASMIL LUNG       |
 | :---------------------: | :---------------------: |
