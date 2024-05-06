@@ -1,7 +1,7 @@
 */__pycache__/
 */*/__pycache__/
-*/2-extract_feats/loggraph/*
-0-extract_patches/logs/*
+*/2-extract_feats/loggraph
+0-extract_patches/logs
 1-sort_images/LOGFOLDER
 3-prepare-geomDataset/log_test
 loggraph
@@ -9,3 +9,5 @@ loggraph
 2-extract_feats/readme.md
 3-prepare-geomDataset/readme.md
 2-extract_feats/*.csv
+*/logfolder/
+*/wandb/
