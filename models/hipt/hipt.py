@@ -1,8 +1,4 @@
 import sys
-
-sys.path.append('/mnt/beegfs/work/H2020DeciderFicarra/gbontempo/dino')
-sys.path.append('/homes/gbontempo/dasmil-extension')
-
 import vision_transformer as vits
 import torch
 import torch.nn as nn
