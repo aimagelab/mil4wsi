@@ -124,9 +124,10 @@ def init(model,state_dict_weights):
     try:
         model.load_state_dict(state_dict_weights, strict=False)
     except:
-        del state_dict_weights['b_classifier.v.1.weight']
-        del state_dict_weights['b_classifier.v.1.bias']
-        model.load_state_dict(state_dict_weights, strict=False)
+        print("error loading state dict")
+        # del state_dict_weights['b_classifier.v.1.weight']
+        # del state_dict_weights['b_classifier.v.1.bias']
+
     return model
 
 class MLP(nn.Module):

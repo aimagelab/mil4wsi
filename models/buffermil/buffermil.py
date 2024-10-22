@@ -1,5 +1,6 @@
 from .utils import FCLayer,BClassifierBuffer,MILNetBuffer,init
 from .utils2 import dropout_node
+from sklearn.preprocessing import MinMaxScaler
 import torch
 from models.utils.basemodel import Baseline
 
@@ -37,10 +38,6 @@ class Buffermil(Baseline):
         Returns:
             _type_: _description_
         """
-        #feats,indecesperlevel,results=self.forward_gnn(x, edge_index, levels, childof, edge_index2, edge_index3)
-        if self.training and self.args.dropout:
-            edge_index, edge_mask, edge_node= dropout_node(edge_index=edge_index,p=0.5)
-            x=x[edge_node]
         results={}
         if self.inference:
             results["higher"]=self.mil.bufferinference(x,self.inference,self.aggregationtype)
