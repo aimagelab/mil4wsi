@@ -72,8 +72,7 @@ def train(model: torch.nn.Module,
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, betas=(
         0.5, 0.9), weight_decay=args.weight_decay)
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
-        optimizer, epochs, 0.000005)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, epochs, 0.000005)
     # Test the initial model
     with torch.no_grad():
         start_test = time.time()
@@ -92,9 +91,10 @@ def train(model: torch.nn.Module,
     # Start training
     for epoch in range(epochs):
         start_training = time.time()
+        if hasattr(model,"preloop"):
+            model.preloop(epoch,trainloader)
         # Iterate over the training data
         for _, data in enumerate(trainloader):
-
             model.train()
             optimizer.zero_grad()
             data = data.cuda()
@@ -107,8 +107,7 @@ def train(model: torch.nn.Module,
                 edge_index3 = None
 
             try:
-                results = model(x, edge_index, level, childof,
-                                edge_index2, edge_index3)
+                results = model(x, edge_index, level, childof,edge_index2, edge_index3)
             except:
                 continue
             bag_label = data.y.float()

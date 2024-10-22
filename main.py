@@ -32,10 +32,13 @@ def main():
     experiments=[]
     if args.dataset== "cam":
         experiments=experiments+launch_DASMIL_cam(args)
+    elif args.modeltype=='Buffermil':
+        experiments=experiments+launch_buffermil(args)
     else:
         experiments=experiments+launch_DASMIL_lung(args)
+    
     executor.map_array(processDataset,experiments)
-    #processDataset(experiments[0])
+    # processDataset(experiments[0])
 
 if __name__ == '__main__':
     main()

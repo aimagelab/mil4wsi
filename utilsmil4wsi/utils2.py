@@ -7,7 +7,7 @@ except ImportError:
     random_walk = None
 from torch import Tensor
 from torch_geometric.utils.num_nodes import maybe_num_nodes
-from torch_geometric.utils.subgraph import subgraph
+from torch_geometric.utils._subgraph import subgraph
 
 
 # code borrowed from pytorch geometric framework
