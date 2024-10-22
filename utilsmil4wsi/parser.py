@@ -72,5 +72,13 @@ def get_args():
     group7.add_argument('--job_parallel', default=10, type=int, help='number of jobs in parallel')
     group7.add_argument('--logfolder', default="logfolder", type=str, help='log folder location name')
 
+
+    #buffermil parameters
+    group8= parser.add_argument_group("submitit")
+   
+    group8.add_argument("--randomstore", default=False,help="ramdom sampling during the buffer storage")
+    group8.add_argument("--bufferaggregate", default="mean",choices=["mean","max","diffmax"], help="type of buffer aggregation")
+    group8.add_argument("--ntop", default=10, help="number of patches stored in the buffer per each image")
+    group8.add_argument('--buffer_freq',default=10, type=int, help='frequency to update the buffer')
     args = parser.parse_args()
     return args
