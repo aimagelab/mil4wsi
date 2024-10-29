@@ -5,14 +5,32 @@
 # Introduction
 Welcome to the mil4wsi Framework – your gateway to state-of-the-art Multiple Instance Learning (MIL) model implementations for gigapixel whole slide images. This comprehensive open-source repository empowers researchers, developers, and enthusiasts to explore and leverage cutting-edge MIL techniques.
 
-# Installation
+# Automatic Installation
 
 ```bash
-conda create -n wsissl python=3.9
+conda create -n wsissl python=3.10
 conda activate wsissl
 conda env update --file environment.yml
 ```
 
+# Manual Installation
+create Environment
+```bash
+conda create -n ENV_NAME python=3.10
+conda activate ENV_NAME
+```
+Install torch
+Install pytorch_geometric
+Install additional  packages
+```bash
+pip install submitit joblib pandas wandb openslide-python==1.2.0 scikit-image wsiprocess scikit-learn matplotlib nystrom_attention
+```
+
+Example with torch==2.4.0; cuda==11.8
+
+```bash
+conda create -n ENV_NAME python=3.10 && conda activate ENV_NAME && pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 && pip install torch_geometric pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.4.0+cu118.html && pip install submitit joblib pandas wandb openslide-python==1.2.0 scikit-image wsiprocess scikit-learn matplotlib nystrom_attention
+```
 # Data Preprocessing
 
 This work uses [CLAM](https://github.com/mahmoodlab/CLAM) to filter out background patches. After the .h5 coordinate generation, use:
