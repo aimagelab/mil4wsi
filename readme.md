@@ -19,9 +19,8 @@ create Environment
 conda create -n ENV_NAME python=3.10
 conda activate ENV_NAME
 ```
-Install torch
-Install pytorch_geometric
-Install additional  packages
+1) Install torch; 2) Install pytorch_geometric; 3) Install additional packages for visualization and log as:
+
 ```bash
 pip install submitit joblib pandas wandb openslide-python==1.2.0 scikit-image wsiprocess scikit-learn matplotlib nystrom_attention
 ```
