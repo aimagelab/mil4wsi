@@ -17,11 +17,11 @@ multi_scales_models = {
 
 # Dictionary of single-scale models
 single_scales_models = {
-    "DSMIL":  {"model": DSMIL, "kl": "lower", "target": "higher"},
-    "ABMIL":  {"model": ABMIL, "kl": "lower", "target": "higher"},
-    "MaxPooling":  {"model": MaxPooling, "kl": "lower", "target": "higher"},
-    "MeanPooling":  {"model": MeanPooling, "kl": "lower", "target": "higher"},
-    "TransMIL":  {"model": TransMIL, "kl": "lower", "target": "higher"},
+    "DSMIL":  {"model": DSMIL, "kl": None, "target": "higher"},
+    "ABMIL":  {"model": ABMIL, "kl": None, "target": "higher"},
+    "MaxPooling":  {"model": MaxPooling, "kl": None, "target": "higher"},
+    "MeanPooling":  {"model": MeanPooling, "kl": None, "target": "higher"},
+    "TransMIL":  {"model": TransMIL, "kl": None, "target": "higher"},
     "Buffermil":  {"model": Buffermil, "kl": None, "target": "higher"},
 }
 
