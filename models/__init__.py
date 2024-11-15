@@ -6,13 +6,13 @@ from models.maxpooling.maxpooling import MaxPooling
 from models.meanpooling.meanpooling import MeanPooling
 from models.transmil.transmil import TransMIL
 from models.buffermil.buffermil import Buffermil
-from models.hipt.hipt import HIPT_LGP_FC
+#from models.hipt.hipt import HIPT_LGP_FC
 
 # Dictionary of multi-scale models
 
 multi_scales_models = {
     "DASMIL":  {"model": DASMIL, "kl": "lower", "target": "higher"},
-     "hipt": {"model":HIPT_LGP_FC,"kl":None,"target":"higher"},
+    # "hipt": {"model":HIPT_LGP_FC,"kl":None,"target":"higher"},
 }
 
 # Dictionary of single-scale models
