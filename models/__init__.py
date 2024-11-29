@@ -22,7 +22,7 @@ single_scales_models = {
     "MaxPooling":  {"model": MaxPooling, "kl": None, "target": "higher"},
     "MeanPooling":  {"model": MeanPooling, "kl": None, "target": "higher"},
     "TransMIL":  {"model": TransMIL, "kl": None, "target": "higher"},
-    "Buffermil":  {"model": Buffermil, "kl": None, "target": "higher"},
+    #"Buffermil":  {"model": Buffermil, "kl": None, "target": "higher"},
 }
 
 
